@@ -183,41 +183,6 @@ When using web or external inventory:
 
 When no current inventory is provided, ask for inventory or permission to search current listings. Do not fabricate available apartments.
 
-## Examples
-
-### Example Input
-
-"Lead wants a 1 bed downtown under $4,200, June 1 move, elevator and laundry preferred. Not tenant rep. Here are current listings..."
-
-### Example Output
-
-```markdown
-Lead Summary:
-- Budget: Up to $4,200
-- Move Date: June 1
-- Neighborhoods: Downtown
-- Beds/Baths: 1 bed
-- Must-Haves: Elevator, laundry preferred
-- Tenant Rep Status: Not tagged #tenantrep, so OP required
-- Notes: Prioritize active OP units downtown within budget
-
-Best Matches:
-
-1. 123 Example St #4B — $4,095 — 1 BR / 1 BT — OP confirmed
-Why it works: Under budget, downtown, active, and checks the elevator/laundry preference.
-Watch-out: Verify exact June 1 availability before sending.
-Action: Send first after confirming availability.
-
-Backups / Conditional Fits:
-- 456 Backup Ave #2C — Strong location but slightly weaker amenity fit.
-
-Exclude / Do Not Send:
-- 789 Old St #5A — No OP, and this is not tagged #tenantrep.
-
-Ric Copy:
-Best fit is 123 Example #4B because it keeps them under $4,200 downtown and checks the elevator/laundry box. I would verify June 1 availability and send that first, with 456 Backup as a secondary option if they are flexible.
-```
-
 ## Final Checks Before Responding
 
 Before giving the final answer, confirm:

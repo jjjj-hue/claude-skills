@@ -106,7 +106,7 @@ When two+ units share the same profile (same beds, same price band, same area):
 - The flip inventory is identical (same profile, same pool)
 
 **3D Tour trade-off:** One automation can't merge two different tour URLs.
-- Default: remove hardcoded tour link from Email 1, offer on reply: *"I'll get you the 3D tour so you can take a look before we go."*
+- Default: remove hardcoded tour link from Email 1, offer on reply: *"I'll get you the 3D tour so you can take a look before we go."
 - Alternative: split back into two separate automations. Ric's call per build.
 
 ---

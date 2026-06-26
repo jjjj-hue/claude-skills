@@ -15,6 +15,15 @@ description: >
 
 Two-step workflow: plain text first → HTML after approval. Never skip to HTML on the first response.
 
+## Media mode flag
+
+- Default (no flag): **skip media pull entirely** — output listings fast, no YouTube/Matterport/SE photo search
+- `/email-blast media` or "blast with media": **run full media pull** (Steps 3a–3c: Jessie YouTube → Matterport → SE photos)
+- If Lucia says "no media", "skip media", "just listings", or "fast" → default mode
+- If Lucia says "with media", "pull media", "include tours", "add photos" → media mode
+
+In default mode: omit Tour/Photo lines entirely from output. Do not note their absence per listing.
+
 ---
 
 ## Step 1 — Parse the input
@@ -54,7 +63,7 @@ Two-step workflow: plain text first → HTML after approval. Never skip to HTML 
 
 ---
 
-## Step 3 — Pull media for each listing
+## Step 3 — Pull media for each listing *(media mode only — skip entirely in default mode)*
 
 **Priority order — stop at first hit:**
 
@@ -131,12 +140,6 @@ End with: "Let me know if anything needs to change and I'll generate the HTML."
 <p style="margin:0 0 16px 0;font-size:13px;">[media]</p>
 ```
 
-**Media link formats:**
-- Video: `<a href="URL" target="_blank" style="color:#0066cc;text-decoration:underline;">Video Tour</a>`
-- 3D Tour: `<a href="URL" target="_blank" style="color:#0066cc;text-decoration:underline;">3D Tour</a>`
-- Photos: `<a href="URL" target="_blank" style="color:#0066cc;text-decoration:underline;">Photo 1</a> &middot; <a ...>Photo 2</a> ...`
-- None: `<span style="color:#666666;">Photos available upon request</span>`
-
 **HTML scaffold:**
 ```html
 <!DOCTYPE html>
@@ -146,11 +149,11 @@ End with: "Let me know if anything needs to change and I'll generate the HTML."
 
 <p style="margin:0 0 16px 0;">Hi %contact_first_name%,</p>
 
-<p style="margin:0 0 16px 0;">[intro — rotate each blast, never reuse the same line. Examples: "Here are some no-fee options in [area] that are available now." / "Pulled a few no-fee places in [area] that just hit." / "Got some good no-fee options in [area] — all available soon." / "Here's what's available no-fee in [area] right now." / "A few no-fee spots in [area] worth a look."]</p>
+<p style="margin:0 0 16px 0;">[intro]</p>
 
 [listing blocks]
 
-<p style="margin:24px 0 16px 0;">[CTA — rotate each blast, never reuse the same line. Examples: "Anything jump out? Just reply and I&rsquo;ll get the showing on the calendar." / "See something you like? I can usually get you in same or next day." / "Any of these feel right? Drop me a reply and I&rsquo;ll lock it in." / "Like what you see? A quick reply is all it takes &mdash; I&rsquo;ll handle the rest." / "Something catch your eye? Reply and I&rsquo;ll get you in." / "Interested in any of these? I can usually schedule a showing same or next day."]</p>
+<p style="margin:24px 0 16px 0;">[CTA]</p>
 
 <p style="margin:0;">Ric<br>%agent_phone%</p>
 
@@ -168,16 +171,6 @@ End with: "Let me know if anything needs to change and I'll generate the HTML."
 
 Cap at 5 listings. Raw URLs on their own line. ≤320 chars per message block.
 
-```
-Hi %contact_first_name%! [1-line hook]:
-
-68 East 1st St, Apt 6C – 2 BR / 1 BA – $5,895 | Avail Now | elevator, FD
-https://my.matterport.com/show/?m=UoToGZRiSxx
-
-Interested in any?
-%agent_first_name% | Bond NY | %agent_phone%
-```
-
 ---
 
 ## Step 7 — Channel routing
@@ -185,14 +178,6 @@ Interested in any?
 - FUB blast (StreetEasy/Zillow leads) → signed as Ric
 - Direct text to 917-923-7380 → signed as Lucia
 - Default to Ric unless told otherwise
-
----
-
-## Step 8 — File naming (only if Lucia asks to save)
-
-HTML: `FUB Email – [Criteria] – [MM-DD-YY].html`
-Text: `FUB Text – [Criteria] – [MM-DD-YY].txt`
-Save to `/Users/luciaj/Claude/Projects/FUB & Tools/` by default.
 
 ---
 
@@ -213,47 +198,3 @@ Save to `/Users/luciaj/Claude/Projects/FUB & Tools/` by default.
 13. `<hr>` dividers
 14. Unit as #X — always Apt X
 15. Footer lines: "Reply or call/text..." or "Approval based on gross rent..."
-
----
-
-## Excel Sheet-by-Sheet Guide
-
-### GPG / GPG Occupied
-Columns: STATUS, APP DATE, BROKER, DATE ADDED, MATTERPORT, ADDRESS, APT, SIZE, LIST RENT, CONCESSION, NET RENT, LEASE TYPE, COMMENTS, STREETEASY AGENT, OLD RENT
-- Show LIST RENT (gross); note concession inline. Include COMMENTS if non-empty.
-
-### BLDG (~60 buildings)
-Structure: building header rows + unit rows. Columns: Unit#, Matterport, 1yr rent, 2yr rent, Size, Available, Access
-- Show both 1-yr and 2-yr pricing.
-
-### SOLIL
-Columns: ADDRESS, APT, STATUS, SIZE, RENT, VAC DATE, ACCESS
-
-### Village Dwellings
-Columns: STATUS, APP DATE, BROKER, DATE ADDED, ADDRESS, APT, SIZE, LIST RENT, CONCESSION, TENANT REP TERMS, NER, MOVE IN DATE, MATTERPORT, FD CODE
-- Show LIST RENT; include concession + move-in date.
-
-### CENTENNIAL
-Organized by neighborhood. Use only if no non-Centennial options match.
-
-### Margules
-Show ASKING RENT (not NER).
-
-### Brusco
-Always include DESCRIPTION column.
-
-### Mango (301 E 38th St)
-Show GROSS RENT.
-
-### Penmark
-Columns: ADDRESS, APT, LOCATION, SIZE, STATUS, PETS, TYPE, RENT, AVAIL, ACCESS
-
----
-
-## Technical notes
-
-- openpyxl for Excel hyperlinks; pandas for filtering
-- openpyxl rows 1-indexed; pandas 0-indexed
-- pdfplumber first for PDFs; pypdf as fallback
-- web_fetch for URL list inputs
-- Master Update cross-reference: 1uVwSvajr1ISm7aonriUa3nGWc_gb6dTtgmx9y-ryvGg

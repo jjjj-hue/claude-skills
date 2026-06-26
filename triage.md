@@ -35,32 +35,18 @@ From the JS output, mark each thread as one of:
 - ⚠️ URGENT — unsubscribe / STOP / wire issue / deal problem
 - 📅 SHOWING — "what time", "when can", "schedule", "can we see"
 - 📋 APP — "application", "apply", "send the app"
-- ❓ QUESTION — direct question needing a real answer ("would that work?", "any others?", "is it available?", specific criteria stated)
-- ✅ SKIP — "thank you", "sounds good", "got it", "found something", no reply needed, automated sequence reply
+- ❓ QUESTION — direct question needing a real answer
+- ✅ SKIP — "thank you", "sounds good", no reply needed
 
 ## STEP 3 — Click-in Only If Needed (max 3)
 
-Only click a thread if the preview cuts off mid-question and you can't tell what they're asking. Use JS to read it:
-
-```javascript
-document.body.innerText.slice(
-  document.body.innerText.indexOf('LEAD NAME'), 
-  document.body.innerText.indexOf('LEAD NAME') + 600
-)
-```
+Only click a thread if the preview cuts off mid-question.
 
 ## OUTPUT — One Table
-
-⚠️ Urgent items first, then:
 
 | Lead | Type | What they need | Action | When |
 |---|---|---|---|---|
 
-- **Action** = one short verb phrase: what to do next (e.g. "Send time options", "Confirm showing", "Send flip options", "Send app link", "Unsubscribe now")
-- **When** = message timestamp from the thread list (e.g. "2:58 pm", "Jun 16")
-
-Skip list (one line): "Skipped: Name, Name, Name — no action needed."
-
----
+Skip list (one line): "Skipped: Name, Name — no action needed."
 
 ## $ARGUMENTS$

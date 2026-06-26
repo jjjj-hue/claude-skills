@@ -44,16 +44,6 @@ description: "Use when Lucia wants to import, normalize, triage, score, or act o
 | No-response | SMS | "Still looking or should I close this out?" |
 | Long-term nurture | Email | Market check-in or criteria refresh |
 
-## Default Templates
-
-**Fresh inquiry SMS:** `Hi {{first_name}}, saw your inquiry on {{listing}}. What move date are you targeting and are you free to tour {{today/tomorrow}}?`
-
-**Flip SMS:** `Hi {{first_name}}, checking {{original}} but if unavailable I found similar options near {{area}}. Want me to send the best 2–3?`
-
-**No-response SMS:** `Hi {{first_name}}, still looking for {{beds}} around {{area/budget}}, or should I close this out for now?`
-
-**Post-tour SMS:** `Hi {{first_name}}, thanks for seeing {{listing}}. Want next steps on applying or a few similar options to compare?`
-
 ## Output Format
 1. **Top priority leads** — ranked list: score, segment, reason, next action
 2. **Segment counts**

@@ -2,7 +2,7 @@
 **Last checked:** 2026-07-02 (live StreetEasy pull, cross-referenced with Lucia's 7/1 status notes)
 **Source:** https://streeteasy.com/profile/845901-ric-salinas?tab_profile=active_listings
 
-Status key: AVAILABLE (send it) · APP (has application — treat as flip) · RENTED (treat as flip) · FLIP (never truly available)
+Status key: AVAILABLE (send it) · APP (has application, ad live — redirect/flip pool) · RENTED (ad still live — redirect/flip pool) · FLIP (never truly available, ad live — redirect/flip pool) · IN CONTRACT (ad down, no live leads — exclude entirely)
 
 | Address | Unit | Beds | Price | Neighborhood | Status |
 |---|---|---|---|---|---|
@@ -21,10 +21,10 @@ Status key: AVAILABLE (send it) · APP (has application — treat as flip) · RE
 | 496 Fulton Street | 3233 | Studio | $3,395/mo | Downtown Brooklyn | NEW — was Paused as of 6/9, now active again, unconfirmed |
 | 338 East 70th Street | 3B | 2 BR | $4,195/mo | Lenox Hill | APP |
 | 166 West 83rd Street | 1C | 1 BR | $3,795/mo | Upper West Side | AVAILABLE |
-| 255 West 12th Street | 5W | 1 BR | $6,300/mo | West Village | IN CONTRACT (per Lucia) — treat as FLIP |
+| 255 West 12th Street | 5W | 1 BR | $6,300/mo | West Village | IN CONTRACT (per Lucia) — EXCLUDE, no live leads |
 | 255 West 12th Street | 5S | 2 BR | $5,750/mo | West Village | AVAILABLE |
 | 116 Franklin Street | 4A | Studio | $3,999/mo | Greenpoint | NEW — unconfirmed, default FLIP until tagged |
-| 111 Avenue A | 4C | 2 BR | $4,650/mo | East Village | IN CONTRACT (per Lucia) — treat as FLIP |
+| 111 Avenue A | 4C | 2 BR | $4,650/mo | East Village | IN CONTRACT (per Lucia) — EXCLUDE, no live leads |
 | 232 Elizabeth Street | 5B | 2 BR | $6,995/mo | Nolita | FLIP |
 | 52 Barrow Street | 1B | 3 BR / 1.5 BA | $8,495/mo | West Village | FLIP |
 | 724 Tenth Avenue | 3B | 2 BR | $4,495/mo | Hell's Kitchen | FLIP |

@@ -22,11 +22,15 @@ don't drill into all listings by default, that's unnecessary overhead for a quic
 
 ## Status categories (Lucia/Ric define these — StreetEasy can't)
 - **AVAILABLE** — truly open, safe to send/flip to leads
-- **HAS AN APPLICATION** — ad still live, treat as FLIP (redirect inquiries elsewhere)
-- **RENTED** — ad still live, treat as FLIP (redirect inquiries elsewhere)
-- **FLIP** — never truly available even when first listed, always redirect
+- **HAS AN APPLICATION** — ad still live, inquiries KEEP COMING IN → needs active FLIP/redirect messaging
+- **RENTED (ad still live)** — ad still live, inquiries KEEP COMING IN → needs active FLIP/redirect messaging
+- **FLIP** — never truly available even when first listed, ad still live → needs active FLIP/redirect messaging
+- **IN CONTRACT** — ad is DOWN, no live leads coming in at all → just EXCLUDE from everything (blasts, automations, flip pools). No redirect messaging needed since there's no inbound to redirect.
 
-Practically: everything that isn't confirmed AVAILABLE by Lucia/Ric gets treated as a FLIP.
+Practically: everything that isn't confirmed AVAILABLE gets excluded from send-out blasts, but
+only HAS APP / RENTED-still-live / FLIP need active flip/redirect handling in automations —
+IN CONTRACT units generate zero live leads and should just be dropped from consideration entirely,
+not treated as a flip target.
 
 ## Workflow
 
@@ -65,5 +69,6 @@ Practically: everything that isn't confirmed AVAILABLE by Lucia/Ric gets treated
    has an accurate baseline to diff against.
 
 ## Output for downstream use (email-blast, tenant-rep-blast, draft-fub-sequence)
-Only pass listings tagged AVAILABLE into any blast or flip pool. Everything else (has app,
-rented, flip) goes into the "redirect inquiries here" pool, not the "send this out" pool.
+- **AVAILABLE** → send-out pool
+- **HAS APP / RENTED-still-live / FLIP** → "redirect inquiries here" pool (active flip messaging needed — leads are still coming in on these)
+- **IN CONTRACT** → excluded entirely, not part of any pool — ad is down, no live leads, nothing to redirect

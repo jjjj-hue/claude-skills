@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>All 2BR / Flex-to-2 — Full Bank Pool</title>
+<style>
+  :root {
+    --ink: #1c1a17;
+    --ink-soft: #4a453e;
+    --paper: #ede9e0;
+    --paper-raised: #f7f4ed;
+    --line: #d8d1c2;
+    --accent: #a8763e;
+    --accent-soft: #f0e3d0;
+    --ready: #3f6b4f;
+    --ready-bg: #e4ede6;
+    --warn: #b3492f;
+    --warn-bg: #f5e2db;
+    --none-bg: #e8e4da;
+    --trpa: #7a3b8f;
+    --trpa-bg: #ede0f2;
+  }
+  :root[data-theme="dark"] {
+    --ink: #efe9de;
+    --ink-soft: #b8b0a2;
+    --paper: #201d19;
+    --paper-raised: #29251f;
+    --line: #3a352c;
+    --accent: #d3a05f;
+    --accent-soft: #3a2f20;
+    --ready: #7cb894;
+    --ready-bg: #24322a;
+    --warn: #e08464;
+    --warn-bg: #3a2620;
+    --none-bg: #2c2822;
+    --trpa: #c893db;
+    --trpa-bg: #362a3c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #efe9de;
+      --ink-soft: #b8b0a2;
+      --paper: #201d19;
+      --paper-raised: #29251f;
+      --line: #3a352c;
+      --accent: #d3a05f;
+      --accent-soft: #3a2f20;
+      --ready: #7cb894;
+      --ready-bg: #24322a;
+      --warn: #e08464;
+      --warn-bg: #3a2620;
+      --none-bg: #2c2822;
+      --trpa: #c893db;
+      --trpa-bg: #362a3c;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 32px 20px 64px; }
+  .mono { font-family: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace; }
+
+  header h1 {
+    font-family: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 4px;
+    text-wrap: balance;
+  }
+  header .sub { color: var(--ink-soft); font-size: 13.5px; max-width: 68ch; margin: 0 0 16px; }
+
+  .trpa-banner {
+    background: var(--trpa-bg);
+    color: var(--trpa);
+    border: 1px solid var(--trpa);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 22px;
+  }
+  .stat { background: var(--paper-raised); padding: 10px 12px; }
+  .stat .n {
+    font-family: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
+    font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; display: block;
+  }
+  .stat .l { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-soft); }
+  .stat.op .n { color: var(--accent); }
+  .stat.trpa .n { color: var(--trpa); }
+  .stat.warn .n { color: var(--warn); }
+
+  .controls {
+    display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+    margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--line);
+  }
+  .control-group { display: flex; align-items: center; gap: 6px; }
+  .controls label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-soft);
+  }
+  select {
+    font: inherit; font-size: 13px; background: var(--paper-raised); color: var(--ink);
+    border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; cursor: pointer;
+  }
+  select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip {
+    font: inherit; font-size: 13px; background: var(--paper-raised); color: var(--ink-soft);
+    border: 1px solid var(--line); border-radius: 999px; padding: 6px 13px; cursor: pointer;
+  }
+  .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .chip[aria-pressed="true"] { background: var(--accent); color: var(--paper-raised); border-color: var(--accent); font-weight: 600; }
+  .chip.trpa-chip[aria-pressed="true"] { background: var(--trpa); border-color: var(--trpa); }
+
+  .group { margin-bottom: 26px; }
+  .group-title {
+    font-family: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
+    font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-soft);
+    margin: 0 0 10px; display: flex; align-items: baseline; gap: 8px;
+  }
+  .group-title .count { color: var(--line); font-weight: 400; }
+
+  .cards { display: grid; gap: 10px; }
+  .card {
+    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 8px;
+    padding: 14px 16px; display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; align-items: start;
+  }
+  .card.trpa { border-left: 3px solid var(--trpa); }
+  .card .addr {
+    font-family: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
+    font-weight: 700; font-size: 14.5px;
+  }
+  .card .meta { grid-column: 1; font-size: 13px; color: var(--ink-soft); }
+  .card .price {
+    grid-row: 1 / 3; grid-column: 2;
+    font-family: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
+    font-weight: 700; font-size: 16px; font-variant-numeric: tabular-nums; color: var(--accent);
+    white-space: nowrap; align-self: center;
+  }
+  .card .notes { grid-column: 1 / -1; font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+  .card .row2 { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; margin-top: 4px; flex-wrap: wrap; }
+  .pill { font-size: 11.5px; font-weight: 600; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+  .pill.op { background: var(--accent-soft); color: var(--accent); }
+  .pill.trpa { background: var(--trpa-bg); color: var(--trpa); }
+  .pill.ready { background: var(--ready-bg); color: var(--ready); }
+  .pill.warn { background: var(--warn-bg); color: var(--warn); }
+  .pill.none { background: var(--none-bg); color: var(--ink-soft); }
+  .media-link { font-size: 12.5px; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-soft); }
+  .media-link:hover { border-bottom-color: var(--accent); }
+
+  footer { margin-top: 32px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 12px; color: var(--ink-soft); }
+
+  @media (max-width: 640px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .card { grid-template-columns: 1fr; }
+    .card .price { grid-row: auto; grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>All 2BR / Flex-to-2 — Full Bank Pool</h1>
+    <p class="sub">Every 2BR or flex-to-2 unit in qualified-bank.md plus the 232 Elizabeth tracker, combined, compiled 7/13/26. Group and filter below to split by area, lease type, price, or media status.</p>
+  </header>
+
+  <div class="trpa-banner" id="trpaBanner" style="display:none;">TRPA units shown — tenant-rep leads only. Never blast these into the general OP pool.</div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="controls">
+    <div class="control-group">
+      <label for="groupBy">Group by</label>
+      <select id="groupBy">
+        <option value="lease">Lease type (OP / TRPA)</option>
+        <option value="area">Area</option>
+        <option value="tier">Price tier</option>
+        <option value="neighborhood">Neighborhood</option>
+        <option value="media">Media status</option>
+      </select>
+    </div>
+    <div class="chips" id="leaseChips">
+      <button class="chip" data-lease="all" aria-pressed="true">All</button>
+      <button class="chip" data-lease="OP" aria-pressed="false">OP only</button>
+      <button class="chip trpa-chip" data-lease="TRPA" aria-pressed="false">TRPA only</button>
+    </div>
+    <div class="chips" id="statusChips">
+      <button class="chip" data-filter="all" aria-pressed="true">All</button>
+      <button class="chip" data-filter="sendable" aria-pressed="false">Sendable now</button>
+      <button class="chip" data-filter="hold" aria-pressed="false">Hold / flagged</button>
+    </div>
+  </div>
+
+  <div id="groups"></div>
+
+  <footer>Last updated 7/13/26. Source: qualified-bank.md + 232 Elizabeth Flip Unit Tracker.</footer>
+</div>
+
+<script>
+  const UNITS = [
+    // --- From 232 Elizabeth tracker (OP) ---
+    { addr: "226 East 25th St", unit: "5C", nbhd: "NoMad", area: "Midtown", type: "2 BR", price: 5795, avail: "Now", lease: "OP", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "Flagged “BLAST!!”" },
+    { addr: "243 East 38th St", unit: "2B", nbhd: "Murray Hill", area: "Midtown", type: "2 BR + office", price: 4850, avail: "Now", lease: "OP", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "2nd room smaller — market as office. 700 sqft." },
+    { addr: "318 East 89th St", unit: "5A", nbhd: "UES", area: "Uptown", type: "2 BR / 1 BA", price: 5100, avail: "7/31", lease: "OP", status: "ready", flagged: true, flagNote: "Price conflict — bank sheet shows $5,200 for this unit. Tracker's $5,100 is the newer confirmation.", media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "Oversized, separate windowed kitchen" },
+    { addr: "Mercedes House — 550 West 54th St", unit: "1925", nbhd: "Hell's Kitchen", area: "Midtown", type: "2 BR / 1 BA", price: 6440, avail: "8/12", lease: "OP", status: "ready", flagged: false, media: "ready", mediaLabel: "3D Tour", mediaUrl: "https://my.matterport.com/show/?m=USudibd1QcH", notes: "Partial river view, 1 mo OP, W/D in unit" },
+    { addr: "162 West 80th St (The Brusco)", unit: "5G", nbhd: "UWS", area: "Uptown", type: "2 BR", price: 6100, avail: "Now", lease: "OP", status: "ready", flagged: false, media: "ready", mediaLabel: "Video Tour", mediaUrl: null, notes: "Winged layout, exposed brick, 1/2 mo OP" },
+    { addr: "325 West 77th St", unit: "3B", nbhd: "UWS", area: "Uptown", type: "2 BR", price: 6250, avail: "Now", lease: "OP", status: "ready", flagged: false, media: "ready", mediaLabel: "Video Tour (of #1B, same line)", mediaUrl: null, notes: "" },
+    { addr: "13 East 7th St", unit: "1", nbhd: "East Village", area: "Downtown", type: "2 BR", price: 6700, avail: "Now", lease: "OP", status: "ready", flagged: false, media: "ready", mediaLabel: "3D Tour", mediaUrl: "https://my.matterport.com/show/?m=msHU6v1NME6", notes: "BLDG mgmt" },
+    { addr: "201-205 West 11th St", unit: "4F", nbhd: "West Village", area: "Downtown", type: "2 BR", price: 6900, avail: "Now", lease: "OP", status: "ready", flagged: false, media: "ready", mediaLabel: "Matterport", mediaUrl: "https://my.matterport.com/show/?m=KUhnvBK8NPJ", notes: "BLDG mgmt — smaller room, good as office setup" },
+    { addr: "201-205 West 11th St", unit: "2F", nbhd: "West Village", area: "Downtown", type: "2 BR", price: 7000, avail: "Now", lease: "OP", status: "hold", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "Same building as #4F — sending 4F instead this round" },
+    { addr: "70 Battery Place", unit: "924", nbhd: "FiDi", area: "Downtown", type: "2 BR / 2 BA", price: 7500, avail: "8/1", lease: "OP", status: "ready", flagged: false, media: "ready", mediaLabel: "Video Tour", mediaUrl: "https://www.youtube.com/shorts/wSgEfb4taqw", notes: "Water views, split bedrooms" },
+    { addr: "222 East 39th St", unit: "23D", nbhd: "Midtown", area: "Midtown", type: "2 BR", price: 8075, avail: "Now", lease: "OP", status: "ready", flagged: false, media: "none", mediaLabel: "No photos found", mediaUrl: null, notes: "BLDG mgmt, off-market" },
+    { addr: "166 Second Ave", unit: "14K", nbhd: "East Village", area: "Downtown", type: "2 BR", price: 8200, avail: "Now", lease: "OP", status: "ready", flagged: false, media: "ready", mediaLabel: "Matterport", mediaUrl: null, notes: "BLDG mgmt" },
+    { addr: "50 Murray St", unit: "804", nbhd: "TriBeCa", area: "Downtown", type: "1 BR flex 2 + den", price: 8000, avail: "—", lease: "OP", status: "ready", flagged: false, media: "ready", mediaLabel: "Video (of #1104, same layout)", mediaUrl: null, notes: "Flex wall up" },
+    { addr: "480 West Broadway", unit: "4FL", nbhd: "SoHo", area: "Downtown", type: "Flex 2 (disputed)", price: 8550, avail: "Now", lease: "OP", status: "ready", flagged: true, flagNote: "BLDG's own sheet calls this a large 1BR + study — NOT a true 2BR/flex-2. Verify before including.", media: "ready", mediaLabel: "3D Tour", mediaUrl: "https://my.matterport.com/show/?m=DGaLh9pNutL", notes: "10ft ceilings, loft-like, roof deck, W/D" },
+    { addr: "Atlas — 66 West 38th St", unit: "30D", nbhd: "Garment District", area: "Midtown", type: "Flex 2", price: 5695, avail: "Now", lease: "OP", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "" },
+    { addr: "Atlas — 66 West 38th St", unit: "46A", nbhd: "Garment District", area: "Midtown", type: "Flex 2", price: 5775, avail: "Now", lease: "OP", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "" },
+    { addr: "Aire — 200 West 67th St", unit: "25H", nbhd: "UWS", area: "Uptown", type: "Flex 2", price: 7100, avail: "Now", lease: "OP", status: "ready", flagged: false, media: "ready", mediaLabel: "3D Tour", mediaUrl: null, notes: "" },
+    { addr: "440 East 78th St", unit: "LLA", nbhd: "UES", area: "Uptown", type: "Unconfirmed bed count", price: 5850, avail: "—", lease: "OP", status: "hold", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "Added to bank, not this round — separate unit from bank's #2D at same address ($5,500)" },
+    { addr: "The Maybury — 550 10th Ave", unit: "3501", nbhd: "Hudson Yards", area: "Midtown", type: "2 BR / 2 BA", price: 8289, avail: "—", lease: "OP", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "" },
+    { addr: "53 Park Place", unit: "5E", nbhd: "TriBeCa", area: "Downtown", type: "1 BR flex 2", price: 6575, avail: "—", lease: "OP", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "Flex layout" },
+    { addr: "50 Murray St", unit: "1608", nbhd: "TriBeCa", area: "Downtown", type: "1 BR flex 2 · 730 sqft", price: 7500, avail: "—", lease: "OP", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "" },
+    { addr: "240 Waverly Place", unit: "56", nbhd: "West Village", area: "Downtown", type: "2 BR / 1 BA", price: 7250, avail: "Now", lease: "OP", status: "ready", flagged: false, media: "ready", mediaLabel: "3D Tour", mediaUrl: null, notes: "Steps from Washington Sq Park, elevator, high ceilings" },
+
+    // --- From qualified-bank.md, OP, not already in tracker ---
+    { addr: "692 Ninth Ave", unit: "5B", nbhd: "Hell's Kitchen", area: "Midtown", type: "2BR-equiv (railroad flex, half-floor 1BR+office)", price: 3300, avail: "Now", lease: "OP", status: "ready", flagged: true, flagNote: "5-story walk-up, no elevator (built 1925) — verify fit before sending. Price may go up.", media: "ready", mediaLabel: "Matterport", mediaUrl: "https://my.matterport.com/show/?m=nLzHfGpefxS", notes: "Best value 2BR-equivalent on the sheet, 1 month OP" },
+    { addr: "520 Second Ave", unit: "480-14F", nbhd: "Kips Bay", area: "Midtown", type: "2 BR", price: 6499, avail: "Now", lease: "OP", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "692 sqft, dishwasher, renovated outdoor space" },
+    { addr: "71 Pineapple St", unit: "B3", nbhd: "Brooklyn Heights", area: "Outer Boroughs", type: "2 BR / 1 BA", price: 4680, avail: "8/1", lease: "OP", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "Half OP, elevator, laundry" },
+    { addr: "437 West 53rd St", unit: "2A", nbhd: "Midtown West", area: "Midtown", type: "2 BR / 1 BA", price: 4995, avail: "8/3", lease: "OP", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "Private balcony, wine cooler, in-unit W/D" },
+    { addr: "219 East 23rd St", unit: "20", nbhd: "Gramercy", area: "Midtown", type: "2 BR / 1 BA duplex penthouse", price: 5895, avail: "8/3", lease: "OP", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "Private roof deck — rare under $6K" },
+    { addr: "301 East 38th St", unit: "17E", nbhd: "Murray Hill", area: "Midtown", type: "2 BR / 1 BA", price: 5995, avail: "End July", lease: "OP", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "Doorman, gym, roof deck" },
+    { addr: "606 West 57th St", unit: "PH09", nbhd: "Midtown West", area: "Midtown", type: "1 BR flex 2", price: 5128, avail: "Now", lease: "OP", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "Penthouse line, 26'8\" LR flex wall, in-unit W/D" },
+    { addr: "66 West 38th St", unit: "18H", nbhd: "Garment District", area: "Midtown", type: "1 BR flex 2", price: 5450, avail: "—", lease: "OP", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "20' LR flex wall, no pet fee" },
+    { addr: "17 East 67th St", unit: "5E", nbhd: "UES", area: "Uptown", type: "1 BR Jr-4, flex-convertible", price: 6100, avail: "Now", lease: "OP", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "950 sqft, StreetEasy confirms flex-to-2" },
+
+    // --- TRPA — Margules / Village Dwellings ---
+    { addr: "303 West 106th St", unit: "2", nbhd: "Morningside / UWS", area: "Uptown", type: "2 BR / 1.5 BA duplex", price: 3025, avail: "Now", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "1 mo free, duplex" },
+    { addr: "720 Second Ave", unit: "1", nbhd: "UES", area: "Uptown", type: "2 BR / 2 BA", price: 4500, avail: "—", lease: "TRPA", status: "ready", flagged: true, flagNote: "Price conflict — Village Dwellings sheet shows same unit at $3,600 w/ 1mo free. Reconcile before sending.", media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "High ceilings" },
+    { addr: "125 East 7th St", unit: "2W", nbhd: "East Village", area: "Downtown", type: "2 BR / 1 BA", price: 5250, avail: "Now", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "Renovated, great light" },
+    { addr: "245 West 51st St", unit: "602", nbhd: "Midtown West", area: "Midtown", type: "2 BR / 1 BA", price: 5295, avail: "Now", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "W/D in unit" },
+    { addr: "163 West 17th St", unit: "6F", nbhd: "Chelsea", area: "Midtown", type: "2 BR / 1 BA", price: 5995, avail: "7/31", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "" },
+    { addr: "230 East 30th St", unit: "3J", nbhd: "Kips Bay", area: "Midtown", type: "XL True 2 BR", price: 6295, avail: "8/1", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "" },
+    { addr: "237 East 34th St", unit: "2104", nbhd: "Kips Bay", area: "Midtown", type: "2 BR / 2 BA (flexes 2–3)", price: 7295, avail: "9/1", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "Flex layout" },
+    { addr: "305 West 13th St", unit: "6N", nbhd: "West Village", area: "Downtown", type: "True 2 BR", price: 8500, avail: "—", lease: "TRPA", status: "ready", flagged: true, flagNote: "Building does NOT allow flex, true 2BR only. 32 leads already on this unit as of 7/13 — high competition.", media: "none", mediaLabel: "None on file", mediaUrl: null, notes: "Big living room" },
+    { addr: "720 Second Ave", unit: "7", nbhd: "UES", area: "Uptown", type: "2 BR", price: 4250, avail: "Now", lease: "TRPA", status: "ready", flagged: false, media: "ready", mediaLabel: "Matterport", mediaUrl: null, notes: "2 months free on 10mo lease" },
+    { addr: "221 Saint James Pl", unit: "1B", nbhd: "FiDi", area: "Downtown", type: "2 BR", price: 3395, avail: "Now", lease: "TRPA", status: "ready", flagged: false, media: "ready", mediaLabel: "Matterport", mediaUrl: null, notes: "" },
+    { addr: "221 Saint James Pl", unit: "2B", nbhd: "FiDi", area: "Downtown", type: "2 BR", price: 3395, avail: "End July", lease: "TRPA", status: "ready", flagged: false, media: "ready", mediaLabel: "Matterport", mediaUrl: null, notes: "" },
+    { addr: "720 Second Ave", unit: "4", nbhd: "UES", area: "Uptown", type: "2 BR", price: 4200, avail: "Now", lease: "TRPA", status: "ready", flagged: false, media: "ready", mediaLabel: "Matterport", mediaUrl: null, notes: "" },
+
+    // --- TRPA — MetroNest, LES / East Village ---
+    { addr: "543 East 5th St", unit: "13", nbhd: "East Village", area: "Downtown", type: "1 BR (flex 2 BR)", price: 3100, avail: "8/1", lease: "TRPA", status: "hold", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "Application under review" },
+    { addr: "218 East 6th St", unit: "DU3", nbhd: "East Village", area: "Downtown", type: "1 BR (flex 2 BR), duplex, private garden", price: 4495, avail: "Now–7/24", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "" },
+    { addr: "218 East 6th St", unit: "9", nbhd: "East Village", area: "Downtown", type: "1 BR (flex 2 BR)", price: 3100, avail: "9/1", lease: "TRPA", status: "hold", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "Application under review" },
+    { addr: "32 East 7th St", unit: "1E", nbhd: "East Village", area: "Downtown", type: "1 BR (flex 2 BR)", price: 3500, avail: "8/1", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "" },
+    { addr: "34 East 7th St", unit: "4B", nbhd: "East Village", area: "Downtown", type: "1 BR (flex 2 BR)", price: 3200, avail: "Now–7/24", lease: "TRPA", status: "hold", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "Application on hold" },
+    { addr: "34 East 7th St", unit: "4C", nbhd: "East Village", area: "Downtown", type: "1 BR (flex 2 BR)", price: 3200, avail: "8/1", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "" },
+    { addr: "34 East 7th St", unit: "3C", nbhd: "East Village", area: "Downtown", type: "1 BR (flex 2 BR)", price: 3200, avail: "9/1", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "" },
+    { addr: "110 East 7th St", unit: "1", nbhd: "East Village", area: "Downtown", type: "2 BR (flex 3 BR), duplex, private garden", price: 4400, avail: "8/1", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "" },
+    { addr: "110 East 7th St", unit: "2", nbhd: "East Village", area: "Downtown", type: "1 BR (flex 2 BR), private garden", price: 3800, avail: "8/1", lease: "TRPA", status: "hold", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "Application under review" },
+    { addr: "431 East 9th St", unit: "11", nbhd: "East Village", area: "Downtown", type: "1 BR (flex 2 BR)", price: 3200, avail: "9/1", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "" },
+    { addr: "620 East 11th St", unit: "3", nbhd: "East Village", area: "Downtown", type: "1 BR (flex 2 BR)", price: 3150, avail: "8/1", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "" },
+    { addr: "620 East 11th St", unit: "20", nbhd: "East Village", area: "Downtown", type: "1 BR (flex 2 BR)", price: 3150, avail: "8/1", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "" },
+    { addr: "622 East 11th St", unit: "3", nbhd: "East Village", area: "Downtown", type: "1 BR (flex 2 BR), private garden", price: 3700, avail: "8/1", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "" },
+    { addr: "622 East 11th St", unit: "4", nbhd: "East Village", area: "Downtown", type: "1 BR (flex 2 BR), private garden", price: 3300, avail: "9/7", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "" },
+    { addr: "405 East 12th St", unit: "8", nbhd: "East Village", area: "Downtown", type: "2 BR (flex 3 BR)", price: 4995, avail: "8/1", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "" },
+
+    // --- TRPA — MetroNest, West Village / Greenwich Village ---
+    { addr: "23 Jones St", unit: "20", nbhd: "West Village", area: "Downtown", type: "1 BR (flex 2 BR)", price: 3990, avail: "8/4", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "" },
+    { addr: "11 Waverly Pl", unit: "6A", nbhd: "West Village", area: "Downtown", type: "1 BR (flex 2 BR)", price: 6210, avail: "8/1", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "" },
+    { addr: "11 Waverly Pl", unit: "12A", nbhd: "West Village", area: "Downtown", type: "1 BR (flex 2 BR)", price: 6410, avail: "8/1", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "" },
+    { addr: "11 Waverly Pl", unit: "12K", nbhd: "West Village", area: "Downtown", type: "1 BR (flex 2 BR)", price: 6210, avail: "8/1", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "" },
+    { addr: "11 Waverly Pl", unit: "3A", nbhd: "West Village", area: "Downtown", type: "1 BR (flex 2 BR)", price: 6210, avail: "8/5", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "" },
+    { addr: "11 Waverly Pl", unit: "4K", nbhd: "West Village", area: "Downtown", type: "1 BR (flex 2 BR)", price: 5460, avail: "8/10", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "Shoes off in unit" },
+    { addr: "11 Waverly Pl", unit: "6F", nbhd: "West Village", area: "Downtown", type: "Furnished 2 BR-flex", price: 5460, avail: "9/15", lease: "TRPA", status: "ready", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "" },
+    { addr: "11 Waverly Pl", unit: "9J", nbhd: "West Village", area: "Downtown", type: "1 BR (flex 2 BR)", price: 6110, avail: "Now–7/24", lease: "TRPA", status: "hold", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "Application under review" },
+    { addr: "11 Waverly Pl", unit: "2F", nbhd: "West Village", area: "Downtown", type: "1 BR (flex 2 BR)", price: 6110, avail: "9/3", lease: "TRPA", status: "hold", flagged: false, media: "none", mediaLabel: "RSVP via calendly.com/MetroNest", mediaUrl: "https://calendly.com/MetroNest", notes: "Application on hold" },
+  ];
+
+  const TIER_ORDER = ["3-4k", "4-5k", "5-6k", "6-7.5k", "7.5-8k", "8k+"];
+  const TIER_LABEL = { "3-4k": "$3K – $4K", "4-5k": "$4K – $5K", "5-6k": "$5K – $6K", "6-7.5k": "$6K – $7.5K", "7.5-8k": "$7.5K – $8K", "8k+": "$8K+" };
+  const AREA_ORDER = ["Downtown", "Midtown", "Uptown", "Outer Boroughs"];
+  const LEASE_ORDER = ["OP", "TRPA"];
+  const MEDIA_LABEL = { ready: "Has media", none: "No media" };
+
+  function tierOf(price) {
+    if (price < 4000) return "3-4k";
+    if (price < 5000) return "4-5k";
+    if (price < 6000) return "5-6k";
+    if (price < 7500) return "6-7.5k";
+    if (price < 8000) return "7.5-8k";
+    return "8k+";
+  }
+  UNITS.forEach(u => { u.tier = tierOf(u.price); });
+
+  const fmtPrice = n => "$" + n.toLocaleString("en-US") + "/mo";
+
+  function renderStats(activeLease) {
+    const pool = activeLease === "all" ? UNITS : UNITS.filter(u => u.lease === activeLease);
+    const total = pool.length;
+    const op = pool.filter(u => u.lease === "OP").length;
+    const trpa = pool.filter(u => u.lease === "TRPA").length;
+    const sendable = pool.filter(u => u.status === "ready" && !u.flagged).length;
+    const holdFlagged = pool.filter(u => u.status === "hold" || u.flagged).length;
+
+    const el = document.getElementById("stats");
+    el.innerHTML = "";
+    const mk = (n, l, cls) => {
+      const d = document.createElement("div");
+      d.className = "stat" + (cls ? " " + cls : "");
+      const nn = document.createElement("span"); nn.className = "n"; nn.textContent = n;
+      const ll = document.createElement("span"); ll.className = "l"; ll.textContent = l;
+      d.append(nn, ll);
+      return d;
+    };
+    el.appendChild(mk(total, "Total units"));
+    el.appendChild(mk(op, "OP", "op"));
+    el.appendChild(mk(trpa, "TRPA", "trpa"));
+    el.appendChild(mk(sendable, "Sendable now", "ready"));
+    el.appendChild(mk(holdFlagged, "Hold / flagged", "warn"));
+  }
+
+  function pillFor(unit) {
+    const pill = document.createElement("span");
+    if (unit.media === "ready") { pill.className = "pill ready"; pill.textContent = "Has media"; }
+    else { pill.className = "pill none"; pill.textContent = "No media"; }
+    return pill;
+  }
+
+  function leasePill(unit) {
+    const pill = document.createElement("span");
+    pill.className = "pill " + (unit.lease === "TRPA" ? "trpa" : "op");
+    pill.textContent = unit.lease;
+    return pill;
+  }
+
+  function buildCard(unit) {
+    const card = document.createElement("div");
+    card.className = "card" + (unit.lease === "TRPA" ? " trpa" : "");
+
+    const addr = document.createElement("div");
+    addr.className = "addr";
+    addr.textContent = unit.addr + " #" + unit.unit;
+    card.appendChild(addr);
+
+    const price = document.createElement("div");
+    price.className = "price";
+    price.textContent = fmtPrice(unit.price);
+    card.appendChild(price);
+
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    meta.textContent = unit.nbhd + " · " + unit.type + " · Avail " + unit.avail;
+    card.appendChild(meta);
+
+    const row2 = document.createElement("div");
+    row2.className = "row2";
+    row2.appendChild(leasePill(unit));
+    if (unit.status === "hold") {
+      const hold = document.createElement("span");
+      hold.className = "pill warn";
+      hold.textContent = "Hold — don't send";
+      row2.appendChild(hold);
+    }
+    if (unit.flagged) {
+      const flag = document.createElement("span");
+      flag.className = "pill warn";
+      flag.textContent = "Flagged";
+      row2.appendChild(flag);
+    }
+    row2.appendChild(pillFor(unit));
+    if (unit.mediaUrl) {
+      const a = document.createElement("a");
+      a.className = "media-link";
+      a.href = unit.mediaUrl;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = unit.mediaLabel;
+      row2.appendChild(a);
+    } else if (unit.media === "ready") {
+      const span = document.createElement("span");
+      span.className = "media-link";
+      span.style.color = "var(--ink-soft)";
+      span.style.borderBottom = "none";
+      span.textContent = unit.mediaLabel;
+      row2.appendChild(span);
+    }
+    card.appendChild(row2);
+
+    if (unit.notes) {
+      const notes = document.createElement("div");
+      notes.className = "notes";
+      notes.textContent = unit.notes;
+      card.appendChild(notes);
+    }
+    if (unit.flagNote) {
+      const flagNote = document.createElement("div");
+      flagNote.className = "notes";
+      flagNote.style.color = "var(--warn)";
+      flagNote.style.fontWeight = "600";
+      flagNote.textContent = "⚠ " + unit.flagNote;
+      card.appendChild(flagNote);
+    }
+
+    return card;
+  }
+
+  function groupKey(unit, mode) {
+    if (mode === "tier") return unit.tier;
+    if (mode === "neighborhood") return unit.nbhd;
+    if (mode === "area") return unit.area;
+    if (mode === "lease") return unit.lease;
+    return unit.media;
+  }
+  function groupLabel(key, mode) {
+    if (mode === "tier") return TIER_LABEL[key] || key;
+    if (mode === "media") return MEDIA_LABEL[key] || key;
+    if (mode === "lease") return key === "TRPA" ? "TRPA — tenant-rep leads only" : "OP — general leads";
+    return key;
+  }
+  function orderedKeys(mode, keys) {
+    if (mode === "tier") return TIER_ORDER.filter(k => keys.has(k));
+    if (mode === "area") return AREA_ORDER.filter(k => keys.has(k));
+    if (mode === "lease") return LEASE_ORDER.filter(k => keys.has(k));
+    if (mode === "media") return ["none", "ready"].filter(k => keys.has(k));
+    return [...keys].sort();
+  }
+
+  function render() {
+    const mode = document.getElementById("groupBy").value;
+    const activeLease = document.querySelector("#leaseChips .chip[aria-pressed='true']").dataset.lease;
+    const activeFilter = document.querySelector("#statusChips .chip[aria-pressed='true']").dataset.filter;
+
+    document.getElementById("trpaBanner").style.display = (activeLease === "TRPA" || (activeLease === "all" && mode !== "lease")) ? "block" : "none";
+
+    let units = UNITS;
+    if (activeLease !== "all") units = units.filter(u => u.lease === activeLease);
+    if (activeFilter === "sendable") units = units.filter(u => u.status === "ready" && !u.flagged);
+    if (activeFilter === "hold") units = units.filter(u => u.status === "hold" || u.flagged);
+
+    renderStats(activeLease);
+
+    const keys = new Set(units.map(u => groupKey(u, mode)));
+    const order = orderedKeys(mode, keys);
+
+    const container = document.getElementById("groups");
+    container.innerHTML = "";
+
+    order.forEach(key => {
+      const items = units.filter(u => groupKey(u, mode) === key).sort((a, b) => a.price - b.price);
+      if (!items.length) return;
+
+      const group = document.createElement("div");
+      group.className = "group";
+
+      const title = document.createElement("h2");
+      title.className = "group-title";
+      const label = document.createElement("span");
+      label.textContent = groupLabel(key, mode);
+      const count = document.createElement("span");
+      count.className = "count";
+      count.textContent = "(" + items.length + ")";
+      title.append(label, count);
+      group.appendChild(title);
+
+      const cards = document.createElement("div");
+      cards.className = "cards";
+      items.forEach(u => cards.appendChild(buildCard(u)));
+      group.appendChild(cards);
+
+      container.appendChild(group);
+    });
+  }
+
+  document.getElementById("groupBy").addEventListener("change", render);
+  document.querySelectorAll("#leaseChips .chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      document.querySelectorAll("#leaseChips .chip").forEach(c => c.setAttribute("aria-pressed", "false"));
+      chip.setAttribute("aria-pressed", "true");
+      render();
+    });
+  });
+  document.querySelectorAll("#statusChips .chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      document.querySelectorAll("#statusChips .chip").forEach(c => c.setAttribute("aria-pressed", "false"));
+      chip.setAttribute("aria-pressed", "true");
+      render();
+    });
+  });
+
+  render();
+</script>
+</body>
+</html>

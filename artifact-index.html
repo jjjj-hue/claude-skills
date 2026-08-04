@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Artifact Index — Lucia's Publishing Directory</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #faf9f5;
+      --fg: #141413;
+      --muted: #5a5a5a;
+      --rule: #e0ddd4;
+      --good: #4C6B3E;
+      --warn: #C9A468;
+      --bad: #9C4A43;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #151A21;
+        --fg: #EFEDE6;
+        --muted: #8B93A0;
+        --rule: #2A313B;
+        --good: #8B9E7E;
+        --warn: #C9A468;
+        --bad: #C2726B;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 {
+      font-size: 32px;
+      font-weight: 500;
+      margin: 0 0 8px;
+      letter-spacing: -.01em;
+    }
+    .intro { color: var(--muted); font-size: 13px; margin: 0 0 32px; max-width: 60ch; }
+
+    .group { margin: 40px 0; border-top: 1px solid var(--rule); padding-top: 24px; }
+    .group-title {
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 16px;
+      font-weight: 600;
+    }
+
+    .entry {
+      padding: 16px;
+      background: rgba(0,0,0,.02);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      border-left: 3px solid var(--rule);
+    }
+    .entry.live { border-left-color: var(--good); background: rgba(76, 107, 62, .08); }
+    .entry.stale { border-left-color: var(--bad); background: rgba(196, 38, 35, .06); opacity: .7; }
+    .entry.archive { border-left-color: var(--muted); opacity: .6; }
+
+    .entry-title {
+      font-weight: 600;
+      font-size: 15px;
+      margin: 0 0 4px;
+    }
+    .entry-title a { color: var(--fg); text-decoration: none; }
+    .entry-title a:hover { text-decoration: underline; }
+
+    .entry-meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 4px 0 0;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .meta-item { display: flex; align-items: center; gap: 6px; }
+
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-left: 8px;
+    }
+    .badge.live { background: rgba(139, 158, 126, .2); color: var(--good); }
+    .badge.stale { background: rgba(194, 114, 107, .2); color: var(--bad); }
+    .badge.archive { background: rgba(139, 147, 160, .2); color: var(--muted); }
+
+    .note {
+      font-size: 12px;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(0,0,0,.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Artifact Index</h1>
+    <p class="intro">Your publishing directory. Click any URL to open it. LIVE versions are your current source of truth; old versions are listed for reference only.</p>
+
+    <div class="group">
+      <div class="group-title">Building Directory</div>
+      <div class="entry live">
+        <div class="entry-title">
+          Flex & Discreet-OP Directory <span class="badge live">LIVE</span>
+          <a href="https://claude.ai/code/artifact/533b1955-b5b7-4b98-8f32-8b167cf8a7e6">↗</a>
+        </div>
+        <div class="entry-meta">
+          <div class="meta-item">Updated Aug 4, 2026</div>
+          <div class="meta-item">OLR outreach responses + 10 flex buildings</div>
+        </div>
+        <div class="note">✓ Use this one. Contains 2026 outreach intel + existing flex/OP portfolios.</div>
+      </div>
+
+      <div class="entry stale">
+        <div class="entry-title">
+          qualified-bank-LIVE (STALE) <span class="badge stale">DO NOT USE</span>
+          <a href="https://claude.ai/code/artifact/65902a6a-e414-4d76-80ba-dfe44d83d65f">↗</a>
+        </div>
+        <div class="entry-meta">
+          <div class="meta-item">Last updated Aug 2, 2026</div>
+        </div>
+        <div class="note">⚠ This is outdated. Use the Aug 4 version instead.</div>
+      </div>
+
+      <div class="entry archive">
+        <div class="entry-title">
+          Qualified Bank — OP Units (Interactive) <span class="badge archive">OLD</span>
+          <a href="https://claude.ai/code/artifact/067650d3-c7af-4238-abb4-b2a758e3f9e2">↗</a>
+        </div>
+        <div class="entry-meta">
+          <div class="meta-item">Last updated Jul 28, 2026</div>
+          <div class="meta-item">Interactive OP finder (174 units)</div>
+        </div>
+        <div class="note">Archived. For reference only — no longer maintained.</div>
+      </div>
+
+      <div class="entry archive">
+        <div class="entry-title">
+          All 2BR / Flex-to-2 — Full Bank Pool <span class="badge archive">OLD</span>
+          <a href="https://claude.ai/code/artifact/8cc97f55-1826-48e7-902d-00bb2823d7a6">↗</a>
+        </div>
+        <div class="entry-meta">
+          <div class="meta-item">Last updated Jul 13, 2026</div>
+        </div>
+        <div class="note">Archived. For reference only — no longer maintained.</div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-title">Active Listings & Dashboard</div>
+      <div class="entry live">
+        <div class="entry-title">
+          Ric's Listings — Live Board <span class="badge live">LIVE</span>
+          <a href="https://claude.ai/code/artifact/1be9abe2-e809-4bcc-81fc-bb59fa856d31">↗</a>
+        </div>
+        <div class="entry-meta">
+          <div class="meta-item">Updated Aug 4, 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-title">Quick Reference</div>
+      <div class="entry">
+        <div class="entry-title">When in doubt:</div>
+        <div class="note">
+          <strong>For qualified-bank / flex / OP buildings:</strong> Use <a href="https://claude.ai/code/artifact/533b1955-b5b7-4b98-8f32-8b167cf8a7e6">the Aug 4 Flex & Discreet-OP Directory</a><br>
+          <strong>To find what I'm looking for:</strong> Search this index with Cmd+F, or ask me "where should I look for X"<br>
+          <strong>To add/remove entries:</strong> Tell me which artifacts to keep or deprecate
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

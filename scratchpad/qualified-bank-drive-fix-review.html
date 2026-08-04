@@ -1,0 +1,131 @@
+<title>Qualified Bank Interactive — Session Review</title>
+<style>
+:root{
+  --bg:#fdfcf9; --fg:#1b1b18; --mut:#6b6a63; --line:#e4e1d8;
+  --mono: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --serif: Georgia, "Iowan Old Style", serif;
+  --red:#b3261e; --red-bg:#fbeceb;
+  --yellow:#8a6d1a; --yellow-bg:#faf3d9;
+  --green:#2c6e3f; --green-bg:#e9f5ec;
+  --accent:#1c4a8a;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#15140f; --fg:#eae7dd; --mut:#a3a196; --line:#33322a;
+    --red-bg:#3a201d; --yellow-bg:#3a3218; --green-bg:#1c3324; --accent:#8fb4e8; }
+}
+:root[data-theme="dark"]{ --bg:#15140f; --fg:#eae7dd; --mut:#a3a196; --line:#33322a;
+  --red-bg:#3a201d; --yellow-bg:#3a3218; --green-bg:#1c3324; --accent:#8fb4e8; }
+:root[data-theme="light"]{ --bg:#fdfcf9; --fg:#1b1b18; --mut:#6b6a63; --line:#e4e1d8; }
+
+*{box-sizing:border-box;}
+body{background:var(--bg); color:var(--fg); font-family:var(--serif); margin:0; line-height:1.5;}
+.wrap{max-width:900px; margin:0 auto; padding:32px 20px 80px;}
+header h1{font-family:var(--serif); font-size:1.7rem; margin:0 0 4px;}
+header .meta{color:var(--mut); font-size:0.92rem;}
+.pills{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;}
+.pill{font-family:var(--mono); font-size:0.72rem; padding:3px 9px; border-radius:20px; border:1px solid var(--line);}
+.pill.red{color:var(--red); border-color:var(--red);}
+.pill.green{color:var(--green); border-color:var(--green);}
+
+section{margin-top:38px;}
+h2{font-size:1.15rem; border-bottom:1px solid var(--line); padding-bottom:8px;}
+p{max-width:68ch;}
+
+.riskmap{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:16px 0;}
+.risk-cell{border:1px solid var(--line); border-radius:8px; padding:12px; font-family:var(--mono); font-size:0.8rem;}
+.risk-cell .label{font-weight:600; display:block; margin-bottom:4px;}
+.risk-cell.hot{background:var(--red-bg); border-color:var(--red);}
+.risk-cell.warm{background:var(--yellow-bg); border-color:var(--yellow);}
+.risk-cell.cold{background:var(--green-bg); border-color:var(--green);}
+
+.finding{display:grid; grid-template-columns:1fr; gap:10px; border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin:14px 0;}
+.finding .tag{font-family:var(--mono); font-size:0.72rem; font-weight:700; letter-spacing:0.02em; padding:2px 8px; border-radius:4px; width:fit-content;}
+.tag.blocking{background:var(--red-bg); color:var(--red);}
+.tag.nit{background:var(--yellow-bg); color:var(--yellow);}
+.tag.nice{background:var(--green-bg); color:var(--green);}
+.finding h3{margin:2px 0 0; font-size:1rem; font-family:var(--serif);}
+.finding .file{font-family:var(--mono); font-size:0.78rem; color:var(--mut);}
+
+pre{background:rgba(127,127,127,0.08); border:1px solid var(--line); border-radius:8px; padding:12px 14px; overflow-x:auto; font-family:var(--mono); font-size:0.8rem; line-height:1.45;}
+code{font-family:var(--mono);}
+.diffline{display:block;}
+.add{background:rgba(44,110,63,0.15);}
+.del{background:rgba(179,38,30,0.15); text-decoration:line-through; opacity:0.8;}
+
+.checklist{list-style:none; padding:0;}
+.checklist li{padding:8px 0; border-bottom:1px dashed var(--line); display:flex; gap:10px;}
+.checklist .num{font-family:var(--mono); color:var(--mut); flex-shrink:0;}
+
+footer{margin-top:60px; padding-top:14px; border-top:1px solid var(--line); color:var(--mut); font-size:0.78rem; font-family:var(--mono);}
+
+@media print{
+  body{background:#fff; color:#000;}
+  .risk-cell, .finding, pre{break-inside:avoid;}
+}
+@media (max-width:700px){
+  .wrap{padding:20px 14px 60px;}
+  header h1{font-size:1.4rem;}
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Qualified Bank Interactive — session review</h1>
+    <div class="meta">File: qualified-bank-interactive-clean.html · Author: Claude (session work) for Lucia · No git repo — reviewed against prior session state, not a formal diff</div>
+    <p style="margin-top:10px;">Three changes this session: fixed 7 units mistagged OP that are actually tenant-rep-only, added a live Drive-manifest debug probe, and re-verified the sort dropdown and Drive call code against the real runtime contract (0.1.15).</p>
+    <div class="pills">
+      <span class="pill red">1 blocking (fixed)</span>
+      <span class="pill green">2 verified clean</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>Risk map</h2>
+    <div class="riskmap">
+      <div class="risk-cell hot"><span class="label">SEED data badges</span>7 rows had op:true on tenant-rep buildings. Fixed.</div>
+      <div class="risk-cell warm"><span class="label">Drive sync (driveSave/Load)</span>Code matches contract exactly; live not_in_manifest error still unexplained — platform-side, not code.</div>
+      <div class="risk-cell cold"><span class="label">Sort dropdown</span>Beds/Area/Avail options all present in markup. No bug found.</div>
+      <div class="risk-cell cold"><span class="label">addrCellHtml area display</span>Simple conditional string append, no injection risk (server-controlled data only).</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Findings</h2>
+
+    <div class="finding">
+      <span class="tag blocking">blocking — fixed</span>
+      <span class="file">SEED array, 7 items (u382, u561, u562, u563, u564, u565, u702)</span>
+      <h3>Tenant-rep-only units tagged as OP</h3>
+      <p>Bentley rows whose reason column said <code>LABEL:TRPA/</code>, <code>LABEL:TRO/</code>, or <code>Tenant Rep</code>, or whose mgmt was Margules / GPG / Odell, were merged in with <code>badges.op = true</code>. Global rule: TRPA/Village Dwellings/Margules units never enter the OP pool — a blast built off this data would advertise no-fee on a unit that isn't.</p>
+      <pre><span class="diffline del">"badges": {..., "op": true, "tenrep": false}</span>
+<span class="diffline add">"badges": {..., "op": false, "tenrep": true}</span></pre>
+      <p>Same 7 rows also corrected in <code>qualified-bank.md</code> (🟢 → 🔵 TRPA, status text → TENANT REP ONLY). Also caught one the first grep-based pass missed (401 East 78th St #5B, Margules) — fixed in a second pass.</p>
+    </div>
+
+    <div class="finding">
+      <span class="tag nice">nice — verified, no change needed</span>
+      <span class="file">driveLoad(), driveSave(), lines 258–326</span>
+      <h3>MCP call shapes match the runtime contract</h3>
+      <p>Checked <code>window.claude.mcp.callTool</code> signature and argument names against the real <code>mcp.d.ts</code> for contract 0.1.15 — <code>create_file</code>/<code>search_files</code>/<code>read_file_content</code> params (title, parentId, textContent, contentMimeType, disableConversionToGoogleType, query, pageSize, fileId) all correct. Also live-tested <code>create_file</code> against the same folder ID directly — write succeeded, so the folder and tool both work outside the artifact frame.</p>
+    </div>
+
+    <div class="finding">
+      <span class="tag nit">nit — added, unresolved root cause</span>
+      <span class="file">new: driveDebugBtn handler, ~10 lines near setInterval block</span>
+      <h3>Debug Drive button added</h3>
+      <p>Calls <code>listTools()</code> and prints server/authStatus/tool names into the status banner. Purpose: distinguish <code>not_in_manifest</code> (bad manifest) from an empty <code>servers[]</code> (Drive not connected for that viewer/frame) from a genuine consent-timing gap — three different fixes, one error message previously. Still waiting on a live click to see which.</p>
+    </div>
+
+  </section>
+
+  <section>
+    <h2>What to look at hardest</h2>
+    <ol class="checklist">
+      <li><span class="num">1</span>Click "Debug Drive" in the live artifact and check the banner text — decides next fix.</li>
+      <li><span class="num">2</span>Spot-check a few of the 7 retagged units render as blue "TRPA" badge, not green OP, on next reload.</li>
+      <li><span class="num">3</span>Confirm no other Margules/Village Dwellings/GPG-TRO rows slipped through outside the 385-row Bentley batch (older manually-entered rows weren't re-swept this pass).</li>
+    </ol>
+  </section>
+
+  <footer>Reviewed 2026-07-30 · static review, no live data, no stored state.</footer>
+</div>

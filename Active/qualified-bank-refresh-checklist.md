@@ -1,0 +1,109 @@
+# Qualified Bank — Building Refresh Checklist
+
+Goal: cross-check every building against its own live/current source, oldest confirmed first. Check off + update date in the artifact when refreshed.
+
+- [ ] **171 East 102nd St** — last confirmed 7/10
+- [ ] **313 East 85th St** — last confirmed 7/10
+- [ ] **555Ten (555 Tenth Ave)** — last confirmed 7/10
+- [ ] **888 Eighth Ave** — last confirmed 7/10
+- [ ] **520 Second Ave** — last confirmed 7/10
+- [ ] **17 East 67th St** — last confirmed 7/12
+- [ ] **111 East 80th St** — last confirmed 7/12
+- [ ] **412 East 55th St** — last confirmed 7/12
+- [ ] **249 East 53rd St** — last confirmed 7/16
+- [ ] **345 East 76th St** — last confirmed 7/16
+- [ ] **219 East 23rd St** — last confirmed 7/7, 7/17
+- [ ] **246 West 22nd St** — last confirmed 7/17
+- [ ] **232 Elizabeth St** — last confirmed 7/17
+- [ ] **156 East 85th St (Monarch)** — last confirmed 7/17
+- [ ] **325 West 77th St** — last confirmed 7/17
+- [ ] **140 West 71st St** — last confirmed 7/17
+- [ ] **606 W 57th St (TF Cornerstone)** — last confirmed 7/17
+- [ ] **550 W 54th St (Mercedes House)** — last confirmed 7/17
+- [ ] **The Maybury, 550 10th Ave** — last confirmed 7/17
+- [ ] **The Maybury** — last confirmed 7/17
+- [ ] **Gotham West, 550 W 45th** — last confirmed 7/17
+- [ ] **Gotham West** — last confirmed 7/17
+- [ ] **The Ashland, Fort Greene** — last confirmed 7/17
+- [ ] **The Ashland** — last confirmed 7/17
+- [ ] **The Forge, LIC** — last confirmed 7/17
+- [ ] **The Suffolk, LES** — last confirmed 7/17
+- [ ] **AIRE, 200 W 67th** — last confirmed 7/17
+- [ ] **AIRE** — last confirmed 7/17
+- [ ] **70 Battery Pl** — last confirmed 7/17
+- [ ] **50 Murray** — last confirmed 7/17
+- [ ] **620 West 42nd St** — last confirmed 7/17
+- [ ] **67 West 73rd St** — last confirmed 7/17
+- [ ] **235 West 22nd St** — last confirmed 7/22
+- [ ] **922 3rd Ave** — last confirmed 7/22
+- [ ] **25 West 68th St** — last confirmed 7/22
+- [ ] **154 Henry St, Brooklyn** — last confirmed 7/22
+- [ ] **80 Cranberry St, Brooklyn** — last confirmed 7/22
+- [ ] **330 East 93rd St** — last confirmed 7/23
+- [ ] **337 East 90th St** — last confirmed 7/23
+- [ ] **435 East 79th St** — last confirmed 7/23
+- [ ] **46 West 73rd St** — last confirmed 7/23
+- [ ] **115 East 92nd St** — last confirmed 7/23
+- [ ] **123 East 82nd St** — last confirmed 7/23
+- [ ] **1 Christopher St** — last confirmed 7/23
+- [ ] **96 5th Ave** — last confirmed 7/22, 7/24
+- [ ] **730 Prospect Place** — last confirmed 7/27
+- [ ] **301 East 38th St (Mango)** — last confirmed 7/16, 7/27
+- [ ] **1 Jane St** — last confirmed 7/23, 7/27
+- [ ] **124 East 24th St** — last confirmed 7/23, 7/27
+- [ ] **145 Fourth Ave** — last confirmed 7/23, 7/27
+- [ ] **220 East 63rd St** — last confirmed 7/27
+- [ ] **222 East 39th St** — last confirmed 7/23, 7/27
+- [ ] **222 East 44th St** — last confirmed 7/23, 7/27
+- [ ] **305 West 45th St** — last confirmed 7/27
+- [ ] **333 East 49th St** — last confirmed 7/23, 7/27
+- [ ] **247 West 87th St** — last confirmed 7/27
+- [ ] **117 East 89th St** — last confirmed 7/23, 7/27
+- [ ] **141 East 56th St** — last confirmed 7/23, 7/27
+- [ ] **147 West 79th St** — last confirmed 7/23, 7/27
+- [ ] **210 East 68th St** — last confirmed 7/27
+- [ ] **229-231 East 12th St** — last confirmed 7/27
+- [ ] **28 King St** — last confirmed 7/27
+- [ ] **3333 Broadway** — last confirmed 7/27
+- [ ] **162 West 80th St** — last confirmed 7/27
+- [ ] **260 W 54th St (Marc Leasing)** — last confirmed 7/17, 7/28
+- [ ] **620 West 42nd St (Silver Towers)** — last confirmed 7/28
+- [ ] **35 West 33rd St (The Magellan)** — last confirmed 7/28
+- [ ] **305 East 86th St** — last confirmed 7/28
+- [ ] **160 East 88th St** — last confirmed 7/28
+- [ ] **76 East 1st St** — last confirmed 7/28
+- [ ] **155 East 88th St** — last confirmed 7/28
+- [ ] **124 East 27th St** — last confirmed 7/28
+- [ ] **358 West 45th St** — last confirmed 7/28
+- [ ] **426 West 49th St** — last confirmed 7/28
+- [ ] **121 Madison Ave** — last confirmed 7/28
+- [ ] **560 Hudson St** — last confirmed 7/28
+- [ ] **43-22 Queens St (Eagle Lofts)** — last confirmed 7/28
+- [ ] **324 West 84th St (Gilardian)** — last confirmed 7/28
+- [ ] **60 Wharf Drive (Halcyon)** — last confirmed 7/28
+- [ ] **410 West 53rd St (Midwest Court)** — last confirmed 7/28
+- [ ] **420 East 54th St (The Orianna)** — last confirmed 7/28
+- [ ] **520 Second Ave (Kips Bay Court)** — last confirmed 7/28
+- [ ] **555 West 38th St (Rockrose)** — last confirmed 7/28
+- [ ] **240 East 86th St (Rose Associates)** — last confirmed 7/28
+- [ ] **138 East 12th St** — last confirmed 7/28
+- [ ] **155 East 29th St (Windsor Court)** — last confirmed 7/28
+- [ ] **225 East 95th St** — last confirmed 7/28
+- [ ] **50 West 34th St (Herald Towers)** — last confirmed 7/28
+- [ ] **776 Sixth Ave (The Capitol)** — last confirmed 7/28
+- [ ] **60 Water St, Dumbo (Two Trees)** — last confirmed 7/28
+- [ ] **145 West 55th St** — last confirmed 7/28
+- [ ] **165 East 35th St** — last confirmed 7/28
+- [ ] **49 West 11th St** — last confirmed 7/28
+- [ ] **310 Greenwich St (Independence Plaza)** — last confirmed 7/28
+- [ ] **40 Harrison St (Independence Plaza)** — last confirmed 7/28
+- [ ] **80 North Moore St (Independence Plaza)** — last confirmed 7/28
+- [ ] **226 East 70th St** — last confirmed 7/28
+- [ ] **432 East 13th St** — last confirmed 7/28
+- [ ] **77 Commercial St, Greenpoint** — last confirmed 7/28
+- [ ] **8 Spruce St (NY by Gehry)** — last confirmed 7/28
+- [ ] **600 Washington St** — last confirmed 7/28
+- [ ] **520 East 20th St (Peter Cooper Stuyvesant Town)** — last confirmed 7/28
+- [ ] **278 First Ave (Peter Cooper Stuyvesant Town)** — last confirmed 7/28
+- [x] **21 India St, Greenpoint** — last confirmed 7/29
+- [x] **254 East 3rd St** — last confirmed 7/29

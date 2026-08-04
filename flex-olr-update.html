@@ -1,0 +1,615 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}</style></head><body>
+<title>Flex &amp; Discreet-OP Directory</title>
+<style>
+  :root{
+    --ink:#EFEDE6;
+    --paper:#151A21;
+    --paper-raised:#1B212A;
+    --brass:#C9A468;
+    --slate:#7C97AC;
+    --rule:#2A313B;
+    --muted:#8B93A0;
+    --stab:#8B9E7E;
+    --bad:#C2726B;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --ink:#1A1D22;
+      --paper:#EFEDE6;
+      --paper-raised:#F7F5F0;
+      --brass:#93701F;
+      --slate:#3F5C70;
+      --rule:#D8D3C7;
+      --muted:#726C5E;
+      --stab:#4C6B3E;
+      --bad:#9C4A43;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#EFEDE6; --paper:#151A21; --paper-raised:#1B212A;
+    --brass:#C9A468; --slate:#7C97AC; --rule:#2A313B; --muted:#8B93A0; --stab:#8B9E7E; --bad:#C2726B;
+  }
+  :root[data-theme="light"]{
+    --ink:#1A1D22; --paper:#EFEDE6; --paper-raised:#F7F5F0;
+    --brass:#93701F; --slate:#3F5C70; --rule:#D8D3C7; --muted:#726C5E; --stab:#4C6B3E; --bad:#9C4A43;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:15px; line-height:1.5;
+  }
+  .num{ font-variant-numeric:tabular-nums; font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
+
+  header{
+    padding:36px 28px 26px; border-bottom:1px solid var(--rule);
+    max-width:960px; margin:0 auto;
+  }
+  .status-badge{
+    display:inline-block; font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+    font-weight:700; padding:3px 8px; border-radius:3px; margin-bottom:10px;
+    background:color-mix(in srgb, var(--stab) 20%, transparent); color:var(--stab);
+  }
+  .eyebrow{
+    font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+    margin:0 0 10px;
+  }
+  h1{
+    font-family:ui-serif,Georgia,"Iowan Old Style","Palatino Linotype",serif;
+    font-weight:500; font-size:clamp(28px,4vw,38px); margin:0 0 8px; text-wrap:balance;
+    letter-spacing:.002em;
+  }
+  header p{ margin:0; color:var(--muted); font-size:13.5px; max-width:64ch; }
+
+  main{ max-width:960px; margin:0 auto; padding:8px 28px 80px; }
+
+  .legend{
+    display:flex; gap:22px; flex-wrap:wrap; margin:22px 0 8px; padding:14px 16px;
+    background:var(--paper-raised); border:1px solid var(--rule); border-radius:4px;
+    font-size:12.5px; color:var(--muted);
+  }
+  .legend span{ display:inline-flex; align-items:center; gap:7px; }
+  .swatch{ width:9px; height:9px; border-radius:2px; display:inline-block; }
+
+  section.wing{ margin-top:44px; }
+  .wing-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:4px; }
+  .wing-head h2{
+    font-family:ui-serif,Georgia,"Iowan Old Style",serif; font-weight:500;
+    font-size:21px; margin:0; text-wrap:balance;
+  }
+  .wing-head .count{ font-size:12px; color:var(--muted); }
+  .wing-sub{ color:var(--muted); font-size:13px; margin:2px 0 18px; max-width:66ch; }
+
+  .portfolio{ margin:28px 0 6px; }
+  .portfolio-name{
+    font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted);
+    display:flex; align-items:center; gap:10px; margin-bottom:10px;
+  }
+  .portfolio-name::after{ content:""; flex:1; height:1px; background:var(--rule); }
+
+  .plaque{ border-top:1px solid var(--rule); padding:16px 0; }
+  .plaque:last-child{ border-bottom:1px solid var(--rule); }
+  .plaque-name{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:4px; }
+  .plaque-name .bldg{ font-weight:600; font-size:16px; }
+  .tag{
+    font-size:10px; letter-spacing:.06em; text-transform:uppercase; font-weight:700;
+    padding:2px 7px; border-radius:3px; line-height:1.6;
+  }
+  .tag.flex{ background:color-mix(in srgb, var(--slate) 20%, transparent); color:var(--slate); }
+  .tag.op{ background:color-mix(in srgb, var(--brass) 20%, transparent); color:var(--brass); }
+  .tag.stab{ background:color-mix(in srgb, var(--stab) 20%, transparent); color:var(--stab); }
+  .tag.noop{ background:color-mix(in srgb, var(--bad) 18%, transparent); color:var(--bad); }
+  .tag.conditional{ background:color-mix(in srgb, var(--muted) 20%, transparent); color:var(--muted); }
+
+  .plaque-note{ color:var(--ink); font-size:13.5px; margin:2px 0 10px; max-width:66ch; }
+  .plaque-units{ color:var(--muted); font-size:12.5px; }
+  .plaque-units b{ color:var(--ink); font-weight:600; }
+  .plaque-units .unit{ margin-right:14px; display:inline-block; }
+  .src{ font-size:11px; color:var(--muted); margin-top:6px; font-style:italic; }
+
+  .avail-table{ width:100%; border-collapse:collapse; margin:8px 0 4px; font-size:12.5px; }
+  .avail-table th{
+    text-align:left; font-weight:600; font-size:10.5px; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--muted); padding:4px 10px 6px 0; border-bottom:1px solid var(--rule);
+  }
+  .avail-table td{ padding:5px 10px 5px 0; border-bottom:1px solid var(--rule); }
+  .avail-table td.price{ font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; color:var(--brass); font-weight:600; white-space:nowrap; }
+  .avail-table tr:last-child td{ border-bottom:none; }
+  .avail-wrap{ overflow-x:auto; }
+  .live-label{ font-size:10.5px; color:var(--stab); text-transform:uppercase; letter-spacing:.05em; font-weight:700; margin:10px 0 2px; }
+
+  .caveat{
+    margin-top:18px; padding:12px 14px; border-left:2px solid var(--muted);
+    font-size:12.5px; color:var(--muted); background:var(--paper-raised);
+  }
+  .caveat b{ color:var(--ink); }
+  .caveat.warn{ border-left-color:var(--bad); }
+
+  .media-list{ margin:10px 0 2px; font-size:12.5px; }
+  .media-list .m-label{ font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin-bottom:4px; }
+  .media-list a{ color:var(--slate); text-decoration:underline; margin-right:14px; }
+  .media-list .none{ color:var(--muted); font-style:italic; }
+
+  footer{ max-width:960px; margin:0 auto; padding:0 28px 60px; color:var(--muted); font-size:11.5px; }
+  ::selection{ background:color-mix(in srgb, var(--brass) 35%, transparent); }
+</style>
+
+<header>
+  <div class="status-badge">✓ LIVE · Updated Aug 4, 2026</div>
+  <p class="eyebrow">Bond New York &middot; Internal Building Intel</p>
+  <h1>Flex &amp; Discreet-OP Directory</h1>
+  <p>Buildings confirmed structurally flex-capable, and OP arrangements paid quietly through direct management contact rather than posted on-listing. Corrected per Lucia 7/22; live availability pulled from each building's own site same day. OLR outreach responses compiled 8/3/26. Not client-facing.</p>
+</header>
+
+<main>
+  <div class="legend">
+    <span><span class="swatch" style="background:var(--slate)"></span>Flex-capable</span>
+    <span><span class="swatch" style="background:var(--brass)"></span>OP</span>
+    <span><span class="swatch" style="background:var(--bad)"></span>No OP right now</span>
+    <span><span class="swatch" style="background:var(--stab)"></span>Rent-stabilized</span>
+  </div>
+
+  <section class="wing">
+    <div class="wing-head"><h2>OLR Outreach Responses</h2><span class="count num">15</span></div>
+    <p class="wing-sub">Buildings contacted via OLR outreach asking for OP availability. Organized by response: confirmed yes, conditional yes, soft nos (temporal), and hard nos.</p>
+
+    <div class="portfolio">
+      <div class="portfolio-name">YES — OP Confirmed</div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">50 West 34th — Herald Towers</span><span class="tag op">OP</span></div>
+        <div class="plaque-note">Paying OP for 2-year deals</div>
+        <div class="src">OLR outreach response, 8/3/26</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">100 West 31 — EOS NoMad</span><span class="tag op">OP</span></div>
+        <div class="plaque-note">1 month OP on top priority 2BR units</div>
+        <div class="src">OLR outreach response, 8/3/26</div>
+      </div>
+    </div>
+
+    <div class="portfolio">
+      <div class="portfolio-name">YES, but — Conditional OP</div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">150 East 39 &amp; Towne House</span><span class="tag conditional">Conditional</span></div>
+        <div class="plaque-note">Must submit OP offer first, then 75% OP returned</div>
+        <div class="src">OLR outreach response, 8/3/26</div>
+      </div>
+    </div>
+
+    <div class="portfolio">
+      <div class="portfolio-name">NO, but — Temporal (Not Right Now)</div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">Claridge's House — 101 W 55 #603</span><span class="tag noop">No OP</span></div>
+        <div class="plaque-note">&quot;Rented&quot; — No OP &quot;at this time&quot;</div>
+        <div class="src">OLR outreach response, 8/3/26</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">101 West End Leasing</span><span class="tag noop">No OP</span></div>
+        <div class="plaque-note">No OP &quot;at this time&quot;</div>
+        <div class="src">OLR outreach response, 8/3/26</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">154 E 29th — Habitat</span><span class="tag noop">No OP</span></div>
+        <div class="plaque-note">No OP &quot;at the moment, will LYK if we do moving forward&quot;</div>
+        <div class="src">OLR outreach response, 8/3/26</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">217 East 66th — Manhattan East</span><span class="tag noop">No OP</span></div>
+        <div class="plaque-note">No OP &quot;at this time&quot;</div>
+        <div class="src">OLR outreach response, 8/3/26</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">363 W 30th — Left Bank</span><span class="tag noop">No OP</span></div>
+        <div class="plaque-note">&quot;Not currently paying an OP&quot;</div>
+        <div class="src">OLR outreach response, 8/3/26</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">41 Park Ave — Stonehenge</span><span class="tag noop">No OP</span></div>
+        <div class="plaque-note">NOT now — busy season / high demand</div>
+        <div class="src">OLR outreach response, 8/3/26</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">8 Gramercy Park South</span><span class="tag noop">No OP</span></div>
+        <div class="plaque-note">No OP on downtown or Murray Hill apartments &quot;at the moment&quot;</div>
+        <div class="src">OLR outreach response, 8/3/26</div>
+      </div>
+    </div>
+
+    <div class="portfolio">
+      <div class="portfolio-name">NO — Hard Pass</div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">150 E 34</span><span class="tag noop">No OP</span></div>
+        <div class="src">OLR outreach response, 8/3/26</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">Rockrose West Village Leasing</span><span class="tag noop">No OP</span></div>
+        <div class="plaque-note">110 Horatio &amp; 100 Jane — high demand, no OP or concessions</div>
+        <div class="src">OLR outreach response, 8/3/26</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">333 Schermerhorn Street — Hub Life</span><span class="tag noop">No OP</span></div>
+        <div class="src">OLR outreach response, 8/3/26</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">330 E 63 — The Cole / SH 70</span><span class="tag noop">No OP</span></div>
+        <div class="src">OLR outreach response, 8/3/26</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wing">
+    <div class="wing-head"><h2>Flex-Capable Buildings</h2><span class="count num">10</span></div>
+    <p class="wing-sub">Grouped by ownership &mdash; three buildings turned out to share one landlord, which is why the OP terms below track the portfolio, not the individual address.</p>
+
+    <div class="portfolio">
+      <div class="portfolio-name">Gotham Properties &mdash; all OP</div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">Aire</span><span class="tag flex">Flex</span><span class="tag op">OP</span></div>
+        <div class="plaque-note">200 West 67th St (corrected address &mdash; not 32 East 1st) &middot; 1/2 mo OP on net amount</div>
+        <div class="live-label">Live availability &mdash; 11 units, aireny.com/availability</div>
+        <div class="avail-wrap"><table class="avail-table">
+          <tr><th>Unit</th><th>Type</th><th>Price</th></tr>
+          <tr><td>6J</td><td>Studio/1BA</td><td class="price">$4,120</td></tr>
+          <tr><td>15D</td><td>Studio/1BA</td><td class="price">$4,693</td></tr>
+          <tr><td>32D</td><td>Studio/1BA</td><td class="price">$4,945</td></tr>
+          <tr><td>5B</td><td>1BR/1BA</td><td class="price">$5,385</td></tr>
+          <tr><td>22C</td><td>1BR/1BA</td><td class="price">$6,778</td></tr>
+          <tr><td>32A</td><td>1BR/1BA</td><td class="price">$7,328</td></tr>
+          <tr><td>32E</td><td>1BR/2BA</td><td class="price">$7,695</td></tr>
+          <tr><td>7K</td><td>2BR/2BA</td><td class="price">$8,887</td></tr>
+          <tr><td>32F</td><td>2BR/2BA</td><td class="price">$11,252</td></tr>
+          <tr><td>34B</td><td>2BR/2.5BA</td><td class="price">$13,979</td></tr>
+          <tr><td>26G</td><td>3BR/2.5BA</td><td class="price">$15,945</td></tr>
+        </table></div>
+        <div class="media-list">
+          <div class="m-label">Direct media on file</div>
+          <a href="https://cleanshot.com/share/3fhLPDcJ" target="_blank">6J photo</a>
+          <a href="https://cleanshot.com/share/QZ1sf9Mt" target="_blank">32D / 15D photo (same layout)</a>
+          <a href="https://cleanshot.com/share/35CCqxlF" target="_blank">22C photo</a>
+          <a href="https://cleanshot.com/share/NScy5WDl" target="_blank">5B photo</a>
+          <a href="https://cleanshot.com/share/G73XRLRp" target="_blank">32E photo</a>
+          <a href="https://cleanshot.com/share/1fM95y2m" target="_blank">7K photo</a>
+          <div class="none">32A, 32F, 34B, 26G — no direct media captured</div>
+        </div>
+        <div class="src">Corrected per Lucia 7/22 &middot; pulled live 7/22</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">The Maybury</span><span class="tag flex">Flex</span><span class="tag op">OP</span></div>
+        <div class="plaque-note">550 10th Ave, Hudson Yards &middot; "up to 1 mo free"</div>
+        <div class="live-label">Live availability &mdash; 8 units, themaybury.com/availability</div>
+        <div class="avail-wrap"><table class="avail-table">
+          <tr><th>Unit</th><th>Type</th><th>Price</th></tr>
+          <tr><td>410</td><td>Abode/1BA</td><td class="price">$3,725</td></tr>
+          <tr><td>3306</td><td>Alcove Studio/1BA</td><td class="price">$4,691</td></tr>
+          <tr><td>3202</td><td>1BR/1BA</td><td class="price">$5,266</td></tr>
+          <tr><td>3210</td><td>1BR/1BA</td><td class="price">$5,654</td></tr>
+          <tr><td>3404</td><td>1BR/1BA</td><td class="price">$5,995</td></tr>
+          <tr><td>3503</td><td>1BR/1BA (The Collection)</td><td class="price">$6,416</td></tr>
+          <tr><td>1203</td><td>2BR/2BA</td><td class="price">$7,682</td></tr>
+          <tr><td>3501</td><td>2BR/2BA (The Collection)</td><td class="price">$8,289</td></tr>
+        </table></div>
+        <div class="media-list">
+          <div class="m-label">Direct media on file</div>
+          <a href="https://cleanshot.com/share/wyjv5gVc" target="_blank">3501 photo</a>
+          <a href="https://drive.google.com/open?id=1oN7L0bjiHDC8EhkYZExfbrWPAFYSa5Cq&amp;usp=drive_fs" target="_blank">3501 flex-wall video</a>
+          <a href="https://cleanshot.com/share/VRl63yNY" target="_blank">3503 photo</a>
+          <a href="https://cleanshot.com/share/HwtvxjfR" target="_blank">3202 photo</a>
+          <div class="none">410, 3306, 3210, 3404, 1203 — no direct media captured (1203's flex-wall video is confirmed only for 3501, not itself)</div>
+        </div>
+        <div class="src">SideNotes 7/12–7/16 &middot; pulled live 7/22</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">The Suffolk</span><span class="tag flex">Flex</span><span class="tag op">OP</span></div>
+        <div class="plaque-note">Lower East Side &middot; 1 mo OP</div>
+        <div class="live-label">Live availability &mdash; 7 units, thesuffolk.com/availability</div>
+        <div class="avail-wrap"><table class="avail-table">
+          <tr><th>Unit</th><th>Type</th><th>Price</th></tr>
+          <tr><td>522</td><td>Abode/1BA</td><td class="price">$4,168</td></tr>
+          <tr><td>403</td><td>Studio/1BA</td><td class="price">$4,786</td></tr>
+          <tr><td>1802</td><td>Studio/1BA</td><td class="price">$5,649</td></tr>
+          <tr><td>2410</td><td>1BR/1BA</td><td class="price">$6,564</td></tr>
+          <tr><td>PH113</td><td>1BR/1BA</td><td class="price">$7,566</td></tr>
+          <tr><td>1914</td><td>2BR/2BA</td><td class="price">$9,482</td></tr>
+          <tr><td>1901</td><td>2BR/2BA</td><td class="price">$9,674</td></tr>
+        </table></div>
+        <div class="media-list"><div class="m-label">Direct media on file</div><div class="none">No direct media captured for any live Suffolk unit</div></div>
+        <div class="src">SideNotes 7/12–7/16 &middot; pulled live 7/22</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">Gotham Point</span><span class="tag flex">Flex</span><span class="tag op">OP</span></div>
+        <div class="plaque-note">1-15 57th Ave, Long Island City &middot; currently up to 1 month free</div>
+        <div class="live-label">Live availability &mdash; 8 units, gothampoint.com/availability</div>
+        <div class="avail-wrap"><table class="avail-table">
+          <tr><th>Unit</th><th>Tower</th><th>Type</th><th>Price</th></tr>
+          <tr><td>4219</td><td>North</td><td>Studio/1BA</td><td class="price">$3,690</td></tr>
+          <tr><td>4225</td><td>North</td><td>Studio/1BA</td><td class="price">$3,953</td></tr>
+          <tr><td>4820</td><td>North</td><td>Studio/1BA</td><td class="price">$3,690</td></tr>
+          <tr><td>3304</td><td>South</td><td>1BR/1BA</td><td class="price">$4,895</td></tr>
+          <tr><td>5026</td><td>North</td><td>1BR/1BA</td><td class="price">$4,787</td></tr>
+          <tr><td>2703</td><td>South</td><td>1BR/1BA</td><td class="price">$5,319</td></tr>
+          <tr><td>3824</td><td>North</td><td>2BR/2BA</td><td class="price">$7,662</td></tr>
+          <tr><td>2605</td><td>South</td><td>3BR/2BA</td><td class="price">$7,470</td></tr>
+        </table></div>
+        <div class="media-list">
+          <div class="m-label">Direct floorplan PDFs (from Gotham Point's own site, not the listing page)</div>
+          <a href="https://gothamproperties.file.force.com/sfc/dist/version/download/?oid=00DfI00000L4WTx&ids=068PW00001U645g&d=%2Fa%2FPW00000HYlM5%2Fm8Ubi9l5kFmUNpIrAmivTJwIeSFUJ5W_zmkMBAliyj8&asPdf=false" target="_blank">4219</a>
+          <a href="https://gothamproperties.file.force.com/sfc/dist/version/download/?oid=00DfI00000L4WTx&ids=068PW00001U78v9&d=%2Fa%2FPW00000HXpoM%2FJjA_PsA8NHQcIXnfaEELpPxWjvjvRklj1D0oW7lXXxs&asPdf=false" target="_blank">4225</a>
+          <a href="https://gothamproperties.file.force.com/sfc/dist/version/download/?oid=00DfI00000L4WTx&ids=068PW00001U850k&d=%2Fa%2FPW00000HYZ81%2FR0Lti1D3V1Fw8IQDSACMCu1l7KuHFNvOT60XpcxdiO8&asPdf=false" target="_blank">4820</a>
+          <a href="https://gothamproperties.file.force.com/sfc/dist/version/download/?oid=00DfI00000L4WTx&ids=068PW00001e4wPL&d=%2Fa%2FPW00000K08QH%2FWpEaJtec5n971Rxoy1p1HDf7Meu8n9SwUbHbK6eXKzI&asPdf=false" target="_blank">2703</a>
+          <a href="https://gothamproperties.file.force.com/sfc/dist/version/download/?oid=00DfI00000L4WTx&ids=068PW00001MY2Bx&d=%2Fa%2FPW00000Fdd7J%2FJSDHmpBz6fFcO5rxzUapo4j_hSayeIwWZZfqBac9UiQ&asPdf=false" target="_blank">3304</a>
+          <a href="https://gothamproperties.file.force.com/sfc/dist/version/download/?oid=00DfI00000L4WTx&ids=068PW00001e5dQz&d=%2Fa%2FPW00000K099R%2Fyn1q1jPS3CZhB5eOq9noJt3sOG3scNJ2v0anZct5ODw&asPdf=false" target="_blank">5026</a>
+          <a href="https://gothamproperties.file.force.com/sfc/dist/version/download/?oid=00DfI00000L4WTx&ids=068PW00001eBAZN&d=%2Fa%2FPW00000K30Hh%2FF93uJZd.9eCGuzqJi3Ica8adqnJf534.5BHIa8PhZ18&asPdf=false" target="_blank">3824</a>
+          <a href="https://gothamproperties.file.force.com/sfc/dist/version/download/?oid=00DfI00000L4WTx&ids=068PW00001aQvIM&d=%2Fa%2FPW00000IzdlF%2FZekDcZIRvzv.CXXfPsVZ3g1wd8YWs1zvVsz07PPpbSQ&asPdf=false" target="_blank">2605</a>
+        </div>
+        <div class="src">Gotham West is the same portfolio (units seen 7/15–7/16: #1916 $8,195, #1114 $8,350) &middot; pulled live 7/22</div>
+      </div>
+    </div>
+
+    <div class="portfolio">
+      <div class="portfolio-name">TF Cornerstone &mdash; OP</div>
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">The Max</span><span class="tag flex">Flex</span><span class="tag op">OP</span></div>
+        <div class="plaque-note">606 West 57th St</div>
+        <div class="live-label">Live availability &mdash; 13 units, tfc.com/apartments/606w57</div>
+        <div class="avail-wrap"><table class="avail-table">
+          <tr><th>Unit</th><th>Type</th><th>Price</th></tr>
+          <tr><td>728</td><td>Studio/1BA</td><td class="price">$3,900</td></tr>
+          <tr><td>532</td><td>Studio/1BA</td><td class="price">$3,995</td></tr>
+          <tr><td>1112</td><td>1BR/1BA (flex-2 per Lucia)</td><td class="price">$4,901</td></tr>
+          <tr><td>1004</td><td>1BR/1BA</td><td class="price">$4,960</td></tr>
+          <tr><td>1606</td><td>1BR/1BA</td><td class="price">$5,195</td></tr>
+          <tr><td>1902</td><td>1BR/1BA</td><td class="price">$5,500</td></tr>
+          <tr><td>328</td><td>1BR/1BA</td><td class="price">$5,660</td></tr>
+          <tr><td>630</td><td>2BR/2BA</td><td class="price">$7,390</td></tr>
+          <tr><td>3004</td><td>2BR/2BA</td><td class="price">$7,566</td></tr>
+          <tr><td>2206</td><td>2BR/2BA</td><td class="price">$7,662</td></tr>
+          <tr><td>809</td><td>2BR/2BA</td><td class="price">$8,235</td></tr>
+          <tr><td>4207</td><td>2BR/2BA</td><td class="price">$8,255</td></tr>
+          <tr><td>4103</td><td>3BR/2BA</td><td class="price">$10,910</td></tr>
+        </table></div>
+        <div class="media-list"><div class="m-label">Direct media on file</div><div class="none">No direct media captured for any live Max unit, including #1112 and #PH09</div></div>
+        <div class="src">#PH09 ($5,128) sourced earlier via SideNotes, not in today's live pull &middot; pulled live 7/22</div>
+      </div>
+    </div>
+
+    <div class="portfolio">
+      <div class="portfolio-name">Clipper Equity / Clipper Realty &mdash; all OP</div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">Tribeca House &mdash; 50 Murray St</span><span class="tag flex">Flex</span><span class="tag op">OP</span></div>
+        <div class="plaque-note">50 Murray St &amp; 53 Park Place are one building, two addresses</div>
+        <div class="live-label">Live availability &mdash; 15 units, StreetEasy/Clipper</div>
+        <div class="avail-wrap"><table class="avail-table">
+          <tr><th>Unit</th><th>Type</th><th>Price</th></tr>
+          <tr><td>624</td><td>Studio/1BA</td><td class="price">$5,660</td></tr>
+          <tr><td>1591</td><td>Studio/1BA</td><td class="price">$6,495</td></tr>
+          <tr><td>1528</td><td>1BR/1BA</td><td class="price">$6,495</td></tr>
+          <tr><td>847</td><td>2BR/1BA</td><td class="price">$6,750</td></tr>
+          <tr><td>1587</td><td>2BR/1BA</td><td class="price">$6,750</td></tr>
+          <tr><td>443</td><td>2BR/1BA</td><td class="price">$6,995</td></tr>
+          <tr><td colspan="3" style="color:var(--muted);font-style:italic;">+ 9 more, of which 5 identified below via the 7/17 internal sheet &mdash; see streeteasy.com/building/tribeca-house for the rest</td></tr>
+        </table></div>
+        <div class="live-label">From Lucia's 50 Murray &amp; 53 Park Pl internal sheet, 7/17/26</div>
+        <div class="avail-wrap"><table class="avail-table">
+          <tr><th>Unit</th><th>Type</th><th>Gross Rent</th><th>View</th></tr>
+          <tr><td>1509</td><td>Studio</td><td class="price">$6,500</td><td>North, Murray</td></tr>
+          <tr><td>423</td><td>Studio/HO</td><td class="price">$6,999</td><td>South, Park Place</td></tr>
+          <tr><td>1318</td><td>1 BR</td><td class="price">$7,500</td><td>North, Murray</td></tr>
+          <tr><td>1721</td><td>1 BR</td><td class="price">$7,500</td><td>South, Park Place</td></tr>
+          <tr><td>1705</td><td>1 BR</td><td class="price">$7,500</td><td>North, Murray</td></tr>
+        </table></div>
+        <div class="media-list">
+          <div class="m-label">Direct media on file (from the internal sheet)</div>
+          <a href="https://youtube.com/shorts/gNq4QOhYLMg?feature=share" target="_blank">1509 video</a>
+          <a href="https://youtube.com/shorts/6jvimeqbheU" target="_blank">423 video</a>
+          <a href="https://youtube.com/shorts/_TG6Oth5g_8" target="_blank">1318 video</a>
+          <a href="https://www.youtube.com/shorts/WGc6xBo1b7k" target="_blank">1721 video</a>
+          <div class="none">1705 — no video yet (unit just went on notice, ready 9/25)</div>
+        </div>
+        <div class="src">1608 ($7,999), 804 ($10,500 studio w/terrace) sourced via SideNotes 7/12, flex confirmed unit 1104/804 layout</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">53 Park Place</span><span class="tag flex">Flex</span><span class="tag op">OP</span></div>
+        <div class="plaque-note">Same Tribeca House building, listed separately on StreetEasy</div>
+        <div class="live-label">Live availability &mdash; 6 units</div>
+        <div class="avail-wrap"><table class="avail-table">
+          <tr><th>Unit</th><th>Type</th><th>Price</th></tr>
+          <tr><td>5I</td><td>Studio/1BA</td><td class="price">$5,140</td></tr>
+          <tr><td>3D</td><td>1BR/1BA</td><td class="price">$6,200</td></tr>
+          <tr><td>5E</td><td>2BR/1BA</td><td class="price">$6,575</td></tr>
+          <tr><td>7E</td><td>2BR/1BA</td><td class="price">$6,625</td></tr>
+          <tr><td>5R</td><td>3BR/2BA</td><td class="price">$10,500</td></tr>
+          <tr><td>8S</td><td>4BR/2BA</td><td class="price">$10,800</td></tr>
+        </table></div>
+        <div class="media-list">
+          <div class="m-label">Direct media on file</div>
+          <a href="https://cleanshot.com/share/k2835FNW" target="_blank">5E photo</a>
+          <a href="https://youtube.com/shorts/Uv0NCIAV-Zg?feature=share" target="_blank">5E video (internal sheet, 7/17)</a>
+          <a href="https://youtu.be/who599NLKM8" target="_blank">7E video (internal sheet, 7/17)</a>
+          <div class="none">5I, 3D, 5R, 8S — no direct media captured</div>
+        </div>
+        <div class="src">Pulled live 7/22</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">Riverwatch &mdash; 70 Battery Place</span><span class="tag flex">Flex</span><span class="tag op">OP</span></div>
+        <div class="plaque-note">Battery Park City</div>
+        <div class="live-label">Live availability &mdash; 3 units</div>
+        <div class="avail-wrap"><table class="avail-table">
+          <tr><th>Unit</th><th>Type</th><th>Price</th></tr>
+          <tr><td>623</td><td>Studio/1BA</td><td class="price">$3,999</td></tr>
+          <tr><td>701</td><td>Studio/1BA</td><td class="price">$3,999</td></tr>
+          <tr><td>516</td><td>2BR/2BA</td><td class="price">$8,400</td></tr>
+        </table></div>
+        <div class="media-list">
+          <div class="m-label">Direct media on file</div>
+          <span style="color:var(--ink);">#701 floorplan &mdash; confirmed match (line 01, studio, 560 sf) in RW_InheritedPlans.PDF page 1 &mdash; sent to Lucia as image, not a public URL</span><br>
+          <a href="https://www.youtube.com/watch?v=Atb3INRVavk" target="_blank">Jessie video &mdash; #819 (1BR, same building, not same line)</a>
+          <a href="https://www.youtube.com/watch?v=NvgksOz-zvE" target="_blank">Jessie video &mdash; #225 (2BR/2BA, same building, closest match for #516)</a>
+          <div class="none">#623 and #516 floorplan pages not yet pinpointed in the 80-page PDF &mdash; more digging needed if wanted</div>
+        </div>
+        <div class="src">#924 (large west-facing 2BR, $7,500) and #817 (1BR, $4,600) sourced SideNotes 7/12, not in today's live 3</div>
+      </div>
+    </div>
+
+    <div class="portfolio">
+      <div class="portfolio-name">Independent &mdash; OP confirmed (per Lucia 7/22)</div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">Mercedes House</span><span class="tag flex">Flex</span><span class="tag op">OP</span><span class="tag stab">Rent-Stab</span></div>
+        <div class="plaque-note">550 West 54th St &middot; some lines rent-stabilized, offering free-rent months not broker OP</div>
+        <div class="live-label">Live availability &mdash; 4 units, StreetEasy</div>
+        <div class="avail-wrap"><table class="avail-table">
+          <tr><th>Unit</th><th>Type</th><th>Price</th></tr>
+          <tr><td>1402</td><td>Studio/1BA</td><td class="price">$4,095</td></tr>
+          <tr><td>1412</td><td>Studio/1BA</td><td class="price">$4,215</td></tr>
+          <tr><td>1714</td><td>Studio/1BA</td><td class="price">$4,475</td></tr>
+          <tr><td>806</td><td>1BR/1BA</td><td class="price">$5,225</td></tr>
+        </table></div>
+        <div class="media-list"><div class="m-label">Direct media on file</div><a href="https://my.matterport.com/show/?m=UgnVbwj6AZH&amp;ss=1&amp;sr=,.62" target="_blank">1714 3D tour</a><div class="none">1402, 1412, 806 — no direct media captured</div></div>
+        <div class="src">#713 ($5,850, 2BR) and #1925 ($6,440, 2BR) sourced SideNotes 7/18–7/19, not in today's live 4</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">555Ten</span><span class="tag flex">Flex</span><span class="tag op">OP</span></div>
+        <div class="plaque-note">555 Tenth Ave, Hudson Yards</div>
+        <div class="live-label">Live availability &mdash; 7 units, StreetEasy</div>
+        <div class="avail-wrap"><table class="avail-table">
+          <tr><th>Unit</th><th>Type</th><th>Price</th></tr>
+          <tr><td>39M</td><td>Studio/1BA</td><td class="price">$4,895</td></tr>
+          <tr><td>16G</td><td>1BR/1BA</td><td class="price">$5,475</td></tr>
+          <tr><td>52G</td><td>1BR/1BA</td><td class="price">$6,235</td></tr>
+          <tr><td>18A</td><td>2BR/2BA</td><td class="price">$8,425</td></tr>
+          <tr><td>41E</td><td>2BR/2BA</td><td class="price">$9,225</td></tr>
+          <tr><td>51A</td><td>2BR/2BA</td><td class="price">$9,250</td></tr>
+          <tr><td colspan="3" style="color:var(--muted);font-style:italic;">+ 1 3BR at $12,995</td></tr>
+        </table></div>
+        <div class="media-list"><div class="m-label">Direct media on file</div><div class="none">No direct media captured for any live 555Ten unit</div></div>
+        <div class="src">Pulled live 7/22</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">The Greenpoint &mdash; 21 India St</span><span class="tag flex">Flex</span><span class="tag op">OP</span></div>
+        <div class="plaque-note">Brooklyn waterfront &middot; free-rent months on offer, no broker OP confirmed</div>
+        <div class="live-label">Live availability &mdash; 6 units, thegreenpoint.nyc</div>
+        <div class="avail-wrap"><table class="avail-table">
+          <tr><th>Unit</th><th>Type</th><th>Rent</th></tr>
+          <tr><td>T.1506</td><td>Studio/1BA</td><td class="price">$3,877</td></tr>
+          <tr><td>T.2605</td><td>Studio/1BA</td><td class="price">$4,050</td></tr>
+          <tr><td>T.2705</td><td>Studio/1BA</td><td class="price">$4,195</td></tr>
+          <tr><td>T.2203</td><td>1BR/1BA</td><td class="price">$5,894</td></tr>
+          <tr><td>T.2409</td><td>1BR/1BA</td><td class="price">$6,100</td></tr>
+          <tr><td>T.2610</td><td>1BR/1BA</td><td class="price">$6,258</td></tr>
+        </table></div>
+        <div class="media-list">
+          <div class="m-label">Direct floorplan &amp; photo links (from Greenpoint's own site, not the listing page)</div>
+          <a href="https://adkast.messagekast.com/adkast/document/unit/?p=mgptknrep" target="_blank">T.1506 floorplan</a>
+          <a href="https://availability.rosenyc.com/print/mgotcreeu/" target="_blank">T.2605 floorplan</a>
+          <a href="https://availability.rosenyc.com/print/mgotcreeu/" target="_blank">T.2705 floorplan</a>
+          <a href="https://adkast.messagekast.com/adkast/document/unit/?p=mgpupdrdp" target="_blank">T.2203 floorplan</a>
+          <a href="https://adkast.messagekast.com/adkast/document/unit/?p=mgptknste" target="_blank">T.2409 floorplan</a>
+          <a href="https://availability.rosenyc.com/print/mgopandpi/" target="_blank">T.2610 floorplan</a><br>
+          <a href="https://adkast.messagekast.com/adkast/image/gallery/large/?p=mgopbnnft" target="_blank">Studio-line photos</a>
+          <a href="https://adkast.messagekast.com/adkast/image/gallery/large/?p=mgpfcdofe" target="_blank">1BR-line photos</a>
+        </div>
+        <div class="src">All carry 1–2 months free on a 13–14 month lease &middot; pulled live 7/22</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">66 West 38th St</span><span class="tag flex">Flex</span><span class="tag noop">No OP right now</span></div>
+        <div class="plaque-note">Garment District</div>
+        <div class="plaque-units"><span class="unit"><b>#18H</b> flex 2BR/1BA, $5,450</span><span class="unit"><b>#45B</b> flex, $5,950, avail IMM</span></div>
+        <div class="media-list"><div class="m-label">Direct media on file</div><div class="none">No direct media captured for #18H or #45B</div></div>
+        <div class="src">Confirmed no OP as of 7/14 (SideNotes) &mdash; check before pitching to OP-only leads</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">Solil buildings</span><span class="tag flex">Flex</span><span class="tag op">OP</span></div>
+        <div class="plaque-note">Multiple addresses, no corporate availability page &mdash; "easy flex" is Solil's own house term</div>
+        <div class="plaque-units">
+          <span class="unit"><b>165 E 35th #4A</b> easy flex-2, $5,400</span>
+          <span class="unit"><b>405 E 56th #10B</b> easy flex-2, $5,200</span>
+          <span class="unit"><b>405 E 56th #3D</b> easy flex-3, $7,600</span>
+          <span class="unit"><b>922 3rd Ave #4R</b> easy flex-2, $4,250</span>
+          <span class="unit"><b>157 E 57th #8C</b> easy flex-3, $8,000</span>
+          <span class="unit"><b>137 E 38th #2E</b> easy flex-3, $8,300</span>
+          <span class="unit"><b>401 E 88th #15D</b> easy flex-3, $8,800</span>
+        </div>
+        <div class="media-list">
+          <div class="m-label">Direct media on file</div>
+          <a href="https://my.matterport.com/show/?m=FC2MVxQic8x" target="_blank">405 E 56th #10B 3D tour</a>
+          <a href="https://my.matterport.com/show/?m=wQb8cVbbAj3" target="_blank">922 3rd Ave #4R 3D tour</a>
+          <a href="https://my.matterport.com/show/?m=HikNkwgYu4N" target="_blank">157 E 57th #8C 3D tour</a>
+          <a href="https://my.matterport.com/show/?m=tEuL3CXy9if" target="_blank">137 E 38th #2E 3D tour</a>
+          <div class="none">165 E 35th #4A, 405 E 56th #3D, 401 E 88th #15D — no direct media captured</div>
+        </div>
+        <div class="src">SideNotes 7/11–7/18</div>
+      </div>
+
+      <div class="plaque">
+        <div class="plaque-name"><span class="bldg">433 East 13th St</span><span class="tag flex">Flex</span></div>
+        <div class="plaque-note">Flagged for follow-up, no unit or OP status pulled yet</div>
+        <div class="src">Paste clip 7/7</div>
+      </div>
+    </div>
+
+    <div class="caveat warn"><b>Excluded from general flex sends:</b> MetroNest (11 Waverly and related buildings) is tenant-rep only &mdash; do not route to the general OP lead pool. Lyra is confirmed OP but explicitly <b>not</b> flex.</div>
+  </section>
+
+  <section class="wing">
+    <div class="wing-head"><h2>Discreet-OP Sources</h2><span class="count num">2</span></div>
+    <p class="wing-sub">Owner pays arranged directly with management &mdash; not posted on the public listing. GPG and BLDG were removed from this list: their OP is standard/visible, not discreet.</p>
+
+    <div class="plaque">
+      <div class="plaque-name"><span class="bldg">254 East 3rd Associates</span><span class="tag op">Discreet OP</span></div>
+      <div class="plaque-note">Management pays half OP on request &mdash; consistent across several of their buildings, not advertised</div>
+      <div class="plaque-units">
+        <span class="unit"><b>254 E 3rd #15</b> $4,775, avail 9/1</span>
+        <span class="unit"><b>71 Pineapple #A1</b> $4,200, IMM</span>
+        <span class="unit"><b>102 Albemarle #E3</b> $4,050, avail 8/1</span>
+        <span class="unit"><b>102 Albemarle #F8</b> $3,450, avail 9/1</span>
+        <span class="unit"><b>203 17th St #21</b> $3,195, avail 8/1</span>
+        <span class="unit"><b>522 E 11th #8</b> $3,550, avail 8/1</span>
+        <span class="unit"><b>11 West 26th #5F</b> $3,850, avail 8/1</span>
+      </div>
+      <div class="src">SideNotes 7/20</div>
+    </div>
+
+    <div class="plaque">
+      <div class="plaque-name"><span class="bldg">Monarch Realty Holdings</span><span class="tag op">Discreet OP</span></div>
+      <div class="plaque-note">1/2 months OP confirmed only by emailing leasing directly &mdash; not shown on the listing page</div>
+      <div class="plaque-units">
+        <span class="unit"><b>156 East 85th St #4B</b> $3,200, 1BR</span>
+        <span class="unit"><b>425 East 80th St #2E</b> $3,400 &mdash; occupied thru 6/30</span>
+        <span class="unit"><b>425 East 80th St #4B</b> $3,400 &mdash; occupied thru 7/31, avail 8/3</span>
+      </div>
+      <div class="src">SideNotes 7/22 &middot; leasing@monarchrealtyholdings.com</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Built from SideNotes 7/11–7/22/26, Paste clipboard history, live scrapes of each building's own availability page (7/22/26), and OLR outreach responses (8/3/26). Internal reference only &mdash; verify OP terms with management before quoting a client.
+</footer>
+
+</body></html>

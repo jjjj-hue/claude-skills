@@ -1,0 +1,165 @@
+total 1000
+solil 163
+'96 5th Ave' | '5N' | del= False | conf= 7/24
+'96 5th Ave' | '8P' | del= False | conf= 7/22
+'235 West 22nd St' | '2Y' | del= False | conf= 8/1
+'922 3rd Ave' | '4R' | del= False | conf= 7/22
+'25 West 68th St' | '1A' | del= False | conf= 7/24
+'154 Henry St, Brooklyn' | '3A' | del= False | conf= 7/22
+'80 Cranberry St, Brooklyn' | '6L' | del= False | conf= 7/24
+'145 West 55th St' | '7A' | del= False | conf= 8/1
+'165 East 35th St' | '4A' | del= False | conf= 7/24
+'49 West 11th St' | '30' | del= False | conf= 7/24
+'71 West 12th St' | '1G' | del= False | conf= 7/24
+'71 West 12th St' | '4H' | del= False | conf= 8/1
+'20 Fifth Ave' | '2B' | del= False | conf= 8/1
+'96 Fifth Ave' | '3C' | del= False | conf= 7/24
+'96 Fifth Ave' | '3H' | del= False | conf= 8/1
+'96 Fifth Ave' | '5N' | del= False | conf= 8/1
+'96 Fifth Ave' | '8P' | del= False | conf= 8/1
+'96 Fifth Ave' | '9L' | del= False | conf= 7/24
+'96 Fifth Ave' | '11L' | del= False | conf= 8/1
+'145 East 16th St' | '3C' | del= False | conf= 7/24
+'145 East 16th St' | '6F' | del= False | conf= 7/24
+'145 East 16th St' | '16B' | del= False | conf= 7/24
+'455 Second Ave' | '5A' | del= False | conf= 7/24
+'455 Second Ave' | '5B' | del= False | conf= 7/24
+'517 Third Ave' | '7' | del= False | conf= 7/24
+'165 East 35th St' | '3C' | del= False | conf= 8/1
+'165 East 35th St' | '4C' | del= False | conf= 7/24
+'165 East 35th St' | '5H' | del= False | conf= 8/1
+'165 East 35th St' | '7G' | del= False | conf= 7/24
+'165 East 35th St' | '14H' | del= False | conf= 7/24
+'140 East 46th St' | '2B' | del= False | conf= 7/24
+'140 East 46th St' | '2S' | del= False | conf= 7/24
+'140 East 46th St' | '4D' | del= False | conf= 7/24
+'140 East 46th St' | '4N' | del= False | conf= 7/24
+'140 East 46th St' | '5F' | del= False | conf= 7/24
+'140 East 46th St' | '6M' | del= False | conf= 8/1
+'140 East 46th St' | '6K' | del= False | conf= 7/24
+'140 East 46th St' | '7K' | del= False | conf= 8/1
+'140 East 46th St' | '7R' | del= False | conf= 8/1
+'140 East 46th St' | '9H' | del= False | conf= 8/1
+'140 East 46th St' | '11K' | del= False | conf= 8/1
+'140 East 46th St' | '11T' | del= False | conf= 7/24
+'300 East 49th St' | '1B' | del= False | conf= 8/1
+'145 West 55th St' | '6E' | del= False | conf= 8/1
+'145 West 55th St' | '11C' | del= False | conf= 7/24
+'145 West 55th St' | '14C' | del= False | conf= 8/1
+'140 West 55th St' | '4C' | del= False | conf= 7/24
+'161 East 55th St' | '2C' | del= False | conf= 8/1
+'922 Third Ave' | '4R' | del= False | conf= 7/24
+'405 East 56th St' | '9L' | del= False | conf= 8/1
+'405 East 56th St' | '10M' | del= False | conf= 8/1
+'1075 First Ave' | '1C' | del= False | conf= 7/24
+'401 East 58th St' | 'B8' | del= False | conf= 8/1
+'157 East 57th St' | '8C' | del= False | conf= 7/24
+'37 East 65th St' | '2A' | del= False | conf= 7/24
+'25 West 68th St' | '1E' | del= False | conf= 7/24
+'219 East 69th St' | '5K' | del= False | conf= 7/24
+'151 East 71st St' | '304' | del= False | conf= 8/1
+'147 East 72nd St' | '5F' | del= False | conf= 8/1
+'166 West 72nd St' | '3C' | del= False | conf= 8/1
+'160 West 73rd St' | '1C' | del= False | conf= 7/24
+'160 West 73rd St' | '6E' | del= False | conf= 8/1
+'160 West 73rd St' | '7K' | del= False | conf= 8/1
+'1043 Lexington Ave' | '4R' | del= False | conf= 8/1
+'1427 York Ave' | '5E' | del= False | conf= 7/24
+'1427 York Ave' | '2B' | del= False | conf= 8/1
+'1427 York Ave' | '0E' | del= False | conf= 8/1
+'240 East 82nd St' | '2K' | del= False | conf= 8/1
+'240 East 82nd St' | '18B' | del= False | conf= 7/24
+'240 East 82nd St' | '20F' | del= False | conf= 8/1
+'1134 Madison Ave' | '4F' | del= False | conf= 7/24
+'163 East 87th St' | '1RE' | del= False | conf= 7/24
+'167 East 87th St' | '5RW' | del= False | conf= 7/24
+'400 East 89th St' | '6J' | del= False | conf= 7/24
+'400 East 89th St' | '7J' | del= False | conf= 7/24
+'401 East 88th St' | '15D' | del= False | conf= 8/1
+'222 East 89th St' | '12' | del= False | conf= 7/24
+'222 East 89th St' | '3' | del= False | conf= 8/1
+'220 East 89th St' | '15' | del= False | conf= 7/24
+'224 East 89th St' | '20' | del= False | conf= 7/24
+'226 East 89th St' | '7' | del= False | conf= 7/24
+'228 East 89th St' | '4W' | del= False | conf= 7/24
+'206 West 104th St' | '45' | del= False | conf= 7/24
+'80 Cranberry St, Brooklyn' | '8E' | del= False | conf= 7/24
+'140 West 55Th Street' | '4C' | del= False | conf= 7/30
+'80 Cranberry Street' | '8E' | del= False | conf= 7/30
+'206 West 104Th Street' | '45' | del= False | conf= 7/30
+'226 East 89Th Street' | '7' | del= False | conf= 7/30
+'224 East 89Th Street' | '20' | del= False | conf= 7/30
+'220 East 89Th Street' | '15' | del= False | conf= 7/30
+'401 East 88Th Street' | '15D' | del= False | conf= 8/1
+'167 East 87Th Street' | '5RW' | del= False | conf= 7/30
+'163 East 87Th Street' | '1RE' | del= False | conf= 7/30
+'240 East 82Nd Street' | '18B' | del= False | conf= 7/30
+'1043 Lexington' | '4R' | del= False | conf= 7/30
+'160 West 73Rd Street' | '1C' | del= False | conf= 7/30
+'160 West 73Rd Street' | '6E' | del= False | conf= 8/1
+'147 East 72Nd Street' | '5F' | del= False | conf= 8/1
+'151 East 71St Street' | '304' | del= False | conf= 8/1
+'219 East 69Th Street' | '5K' | del= False | conf= 7/30
+'37 East 65Th Street' | '2A' | del= False | conf= 7/30
+'157 East 57Th Street' | '8C' | del= False | conf= 7/30
+'401 East 58Th Street' | 'B8' | del= False | conf= 8/1
+'1075 First Avenue' | '1C' | del= False | conf= 7/30
+'922 Third Avenue' | '4R' | del= False | conf= 7/30
+'161 East 55Th Street' | '2C' | del= False | conf= 8/1
+'145 West 55Th Street' | '14C' | del= False | conf= 8/1
+'145 West 55Th Street' | '11C' | del= False | conf= 7/30
+'140 East 46Th Street' | '4N' | del= False | conf= 7/30
+'140 East 46Th Street' | '6K' | del= False | conf= 7/30
+'140 East 46Th Street' | '2B' | del= False | conf= 7/30
+'140 East 46Th Street' | '4D' | del= False | conf= 7/30
+'140 East 46Th Street' | '11T' | del= False | conf= 7/30
+'140 East 46Th Street' | '5F' | del= False | conf= 7/30
+'140 East 46Th Street' | '2S' | del= False | conf= 7/30
+'165 East 35Th Street' | '4A' | del= False | conf= 7/30
+'165 East 35Th Street' | '7G' | del= False | conf= 7/30
+'165 East 35Th Street' | '4C' | del= False | conf= 7/30
+'165 East 35Th Street' | '14H' | del= False | conf= 7/30
+'517 Third Avenue' | '7' | del= False | conf= 7/30
+'455 Second Avenue' | '5A' | del= False | conf= 7/30
+'455 Second Avenue' | '5B' | del= False | conf= 7/30
+'145 East 16Th Street' | '6F' | del= False | conf= 7/30
+'145 East 16Th Street' | '16B' | del= False | conf= 7/30
+'96 Fifth Avenue' | '5N' | del= False | conf= 8/1
+'96 Fifth Avenue' | '3H' | del= False | conf= 8/1
+'96 Fifth Avenue' | '8P' | del= False | conf= 8/1
+'96 Fifth Avenue' | '9L' | del= False | conf= 7/30
+'96 Fifth Avenue' | '3C' | del= False | conf= 7/30
+'71 West 12Th Street' | '1G' | del= False | conf= 7/30
+'49 West 11Th Street' | '30' | del= False | conf= 7/30
+'266 Bleecker St' | '20304' | del= False | conf= 8/1
+'307 Mott St' | '3A' | del= False | conf= 8/1
+'20 Fifth Ave' | '9B' | del= False | conf= 8/1
+'20 Fifth Ave' | '14A' | del= False | conf= 8/1
+'145 East 16th St' | '5F' | del= False | conf= 8/1
+'235 West 22nd St' | '7J' | del= False | conf= 8/1
+'165 East 35th St' | '10C' | del= False | conf= 8/1
+'165 East 35th St' | '11H' | del= False | conf= 8/1
+'156 East 37th St' | '1C' | del= False | conf= 8/1
+'137 East 38th St' | '2A' | del= False | conf= 8/1
+'137 East 38th St' | '2D' | del= False | conf= 8/1
+'987 First Ave (54th)' | '3R' | del= False | conf= 8/1
+'159 East 55th St' | '4A' | del= False | conf= 8/1
+'160 East 55th St' | '7F' | del= False | conf= 8/1
+'162 East 55th St' | '5C' | del= False | conf= 8/1
+'405 East 56th St' | '2E' | del= False | conf= 8/1
+'405 East 56th St' | '9LA' | del= False | conf= 8/1
+'1075 First Ave (58-59)' | '3A' | del= False | conf= 8/1
+'157 East 57th St' | '3A' | del= False | conf= 8/1
+'157 East 57th St' | '12E' | del= False | conf= 8/1
+'157 East 57th St' | '17C' | del= False | conf= 8/1
+'25 West 68th St' | '3F' | del= False | conf= 8/1
+'219 East 69th St' | '12L' | del= False | conf= 8/1
+'166 West 72nd St' | '9D' | del= False | conf= 8/1
+'160 West 73rd St' | '1F' | del= False | conf= 8/1
+'160 West 73rd St' | '8K' | del= False | conf= 8/1
+'160 West 73rd St' | '10E' | del= False | conf= 8/1
+'1427 York Ave' | '2C' | del= False | conf= 8/1
+'24 East 80th St (elevator bldg)' | '5A' | del= False | conf= 8/1
+'240 East 82nd St' | '10K' | del= False | conf= 8/1
+'167 East 87th St' | '2RW' | del= False | conf= 8/1
+'222 East 89th St' | '16' | del= False | conf= 8/1

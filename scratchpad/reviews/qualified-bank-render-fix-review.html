@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>qualified-bank-LIVE.html — render-fix review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eef0f2;
+  --surface:#ffffff;
+  --surface-2:#e4e7eb;
+  --ink:#171a1f;
+  --mut:#5b6470;
+  --line:#cfd5db;
+  --accent:#0f7d72;
+  --accent-ink:#083f3a;
+  --danger:#c0392b;
+  --danger-bg:#fbe9e7;
+  --warn:#a4720c;
+  --warn-bg:#fbf1dc;
+  --good:#2e7d5b;
+  --good-bg:#e6f3ec;
+  --diff-add-bg:#e3f6ec;
+  --diff-add-ink:#1f6b45;
+  --diff-del-bg:#fbeaea;
+  --diff-del-ink:#a3352a;
+  --diff-ctx:#5b6470;
+  --code-bg:#12151a;
+  --code-ink:#dfe4ea;
+  --shadow: 0 1px 2px rgba(23,26,31,.06), 0 8px 24px rgba(23,26,31,.06);
+  --radius:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1216;
+    --surface:#161a20;
+    --surface-2:#1e242c;
+    --ink:#e7e9ec;
+    --mut:#93a0ad;
+    --line:#2a323c;
+    --accent:#35b3a3;
+    --accent-ink:#bdeee6;
+    --danger:#ef6b5f;
+    --danger-bg:#2a1717;
+    --warn:#e3b04d;
+    --warn-bg:#2a2312;
+    --good:#5cc793;
+    --good-bg:#122a1e;
+    --diff-add-bg:#0f2a1c;
+    --diff-add-ink:#7fd9a7;
+    --diff-del-bg:#2c1414;
+    --diff-del-ink:#f0938a;
+    --diff-ctx:#8891a0;
+    --code-bg:#0a0c0f;
+    --code-ink:#dfe4ea;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+  }
+}
+[data-theme="dark"]{
+  --bg:#0f1216; --surface:#161a20; --surface-2:#1e242c; --ink:#e7e9ec; --mut:#93a0ad; --line:#2a323c;
+  --accent:#35b3a3; --accent-ink:#bdeee6; --danger:#ef6b5f; --danger-bg:#2a1717; --warn:#e3b04d; --warn-bg:#2a2312;
+  --good:#5cc793; --good-bg:#122a1e; --diff-add-bg:#0f2a1c; --diff-add-ink:#7fd9a7; --diff-del-bg:#2c1414;
+  --diff-del-ink:#f0938a; --diff-ctx:#8891a0; --code-bg:#0a0c0f; --code-ink:#dfe4ea;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+}
+[data-theme="light"]{
+  --bg:#eef0f2; --surface:#ffffff; --surface-2:#e4e7eb; --ink:#171a1f; --mut:#5b6470; --line:#cfd5db;
+  --accent:#0f7d72; --accent-ink:#083f3a; --danger:#c0392b; --danger-bg:#fbe9e7; --warn:#a4720c; --warn-bg:#fbf1dc;
+  --good:#2e7d5b; --good-bg:#e6f3ec; --diff-add-bg:#e3f6ec; --diff-add-ink:#1f6b45; --diff-del-bg:#fbeaea;
+  --diff-del-ink:#a3352a; --diff-ctx:#5b6470; --code-bg:#12151a; --code-ink:#dfe4ea;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+  line-height:1.55;
+}
+code, pre, .mono{font-family:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace}
+a{color:var(--accent)}
+.wrap{max-width:920px; margin:0 auto; padding:0 20px 80px}
+
+header.top{
+  background:var(--surface); border-bottom:1px solid var(--line);
+  padding:28px 20px 22px;
+}
+.top-inner{max-width:920px; margin:0 auto}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--mut); margin:0 0 8px;
+}
+h1{font-size:22px; margin:0 0 6px; font-weight:700; text-wrap:balance}
+.subtitle{color:var(--mut); font-size:14.5px; margin:0 0 16px; max-width:62ch}
+.meta-row{display:flex; gap:18px; flex-wrap:wrap; font-size:12.5px; color:var(--mut); margin-bottom:14px}
+.meta-row b{color:var(--ink); font-weight:600}
+.pills{display:flex; gap:8px; flex-wrap:wrap}
+.pill{
+  display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:600;
+  padding:5px 11px; border-radius:999px; border:1px solid var(--line); background:var(--surface-2); color:var(--ink);
+}
+.pill.was-broken{background:var(--danger-bg); color:var(--danger); border-color:transparent}
+.pill.fixed{background:var(--good-bg); color:var(--good); border-color:transparent}
+.pill.merged{background:var(--surface-2); color:var(--accent-ink)}
+.pill.unverified{background:var(--warn-bg); color:var(--warn); border-color:transparent}
+
+section{padding:34px 0}
+section h2{
+  font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--mut);
+  margin:0 0 16px; font-weight:600; display:flex; align-items:center; gap:10px;
+}
+section h2::after{content:""; flex:1; height:1px; background:var(--line)}
+
+.card{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:20px 22px;
+}
+
+.tldr{font-size:15.5px}
+.tldr p{margin:0 0 10px}
+.tldr p:last-child{margin-bottom:0}
+
+.narrative p{margin:0 0 14px; font-size:14.5px}
+.narrative p:last-child{margin-bottom:0}
+
+/* risk map */
+.riskmap{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+.risk-zone{
+  border-radius:var(--radius); padding:16px 16px 14px; border:1px solid var(--line);
+  display:flex; flex-direction:column; gap:6px; min-height:118px;
+}
+.risk-zone .rz-label{font-size:11px; text-transform:uppercase; letter-spacing:.05em; font-weight:700}
+.risk-zone .rz-name{font-size:14.5px; font-weight:600}
+.risk-zone .rz-desc{font-size:12.5px; color:var(--mut); flex:1}
+.risk-zone .rz-lines{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--mut)}
+.risk-zone.r-high{background:var(--danger-bg); border-color:transparent}
+.risk-zone.r-high .rz-label{color:var(--danger)}
+.risk-zone.r-med{background:var(--warn-bg); border-color:transparent}
+.risk-zone.r-med .rz-label{color:var(--warn)}
+.risk-zone.r-low{background:var(--good-bg); border-color:transparent}
+.risk-zone.r-low .rz-label{color:var(--good)}
+@media (max-width:700px){.riskmap{grid-template-columns:1fr}}
+
+/* commit blocks */
+.commit{
+  border:1px solid var(--line); border-radius:var(--radius); background:var(--surface);
+  box-shadow:var(--shadow); margin-bottom:22px; overflow:hidden;
+}
+.commit-head{
+  padding:14px 18px; border-bottom:1px solid var(--line); background:var(--surface-2);
+  display:flex; flex-wrap:wrap; gap:10px 16px; align-items:baseline;
+}
+.commit-sha{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--accent); font-weight:600}
+.commit-msg{font-size:13.5px; font-weight:600; flex:1; min-width:200px}
+.commit-tag{
+  font-size:10.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
+  padding:3px 8px; border-radius:5px;
+}
+.commit-tag.blocking{background:var(--danger-bg); color:var(--danger)}
+.commit-tag.nit{background:var(--warn-bg); color:var(--warn)}
+.commit-tag.nice{background:var(--good-bg); color:var(--good)}
+
+.diff-body{display:grid; grid-template-columns:1fr 260px}
+@media (max-width:760px){.diff-body{grid-template-columns:1fr}}
+
+.diff-code{
+  background:var(--code-bg); color:var(--code-ink); overflow-x:auto;
+  font-family:'IBM Plex Mono',monospace; font-size:12px; padding:4px 0;
+}
+.diff-code .line{padding:2px 16px; white-space:pre; display:flex}
+.diff-code .ln{
+  color:#5c6470; width:38px; flex-shrink:0; text-align:right; margin-right:14px; user-select:none;
+}
+.diff-code .add{background:rgba(63,184,175,.12)}
+.diff-code .add .content{color:var(--diff-add-ink)}
+.diff-code .add .marker{color:var(--diff-add-ink)}
+.diff-code .del{background:rgba(239,107,95,.12)}
+.diff-code .del .content{color:var(--diff-del-ink)}
+.diff-code .del .marker{color:var(--diff-del-ink)}
+.diff-code .ctx .content{color:var(--diff-ctx)}
+.diff-code .marker{width:14px; flex-shrink:0}
+.diff-code .content{white-space:pre-wrap; word-break:break-word}
+.diff-code .anchor{outline:1.5px dashed #e3b04d; outline-offset:1px}
+
+.notes{
+  border-left:1px solid var(--line); padding:14px 16px; display:flex; flex-direction:column; gap:12px;
+  background:var(--surface);
+}
+@media (max-width:760px){.notes{border-left:none; border-top:1px solid var(--line)}}
+.note{font-size:12.5px; line-height:1.5; padding-left:10px; border-left:3px solid var(--line)}
+.note.sev-blocking{border-color:var(--danger)}
+.note.sev-blocking .sev{color:var(--danger)}
+.note.sev-nit{border-color:var(--warn)}
+.note.sev-nit .sev{color:var(--warn)}
+.note.sev-nice{border-color:var(--good)}
+.note.sev-nice .sev{color:var(--good)}
+.note .sev{font-weight:700; font-size:10.5px; text-transform:uppercase; letter-spacing:.04em; display:block; margin-bottom:3px}
+
+.callout{
+  background:var(--surface-2); border-radius:var(--radius); padding:16px 18px; font-size:13px;
+  border:1px solid var(--line); margin:16px 0;
+}
+.callout .cal-label{font-weight:700; font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--accent); margin-bottom:6px; display:block}
+.callout code{background:var(--code-bg); color:var(--code-ink); padding:1px 5px; border-radius:4px; font-size:12px}
+
+table.cov{width:100%; border-collapse:collapse; font-size:13px}
+table.cov th, table.cov td{text-align:left; padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:top}
+table.cov th{font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--mut); font-weight:600}
+table.cov td.status{white-space:nowrap; font-weight:600}
+.status.tested{color:var(--good)}
+.status.skipped{color:var(--warn)}
+.status.known{color:var(--danger)}
+
+.checklist{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px}
+.checklist li{
+  display:flex; gap:12px; align-items:flex-start; font-size:13.5px; background:var(--surface);
+  border:1px solid var(--line); border-radius:8px; padding:12px 14px;
+}
+.checklist .rank{
+  font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:11px; color:#fff;
+  background:var(--accent); border-radius:6px; padding:2px 7px; flex-shrink:0; margin-top:1px;
+}
+.checklist li.top .rank{background:var(--danger)}
+.checklist .txt b{display:block; margin-bottom:2px}
+.checklist .txt span{color:var(--mut); font-size:12.5px}
+
+footer{
+  text-align:center; font-size:11.5px; color:var(--mut); padding:26px 0 10px; border-top:1px solid var(--line); margin-top:20px;
+}
+
+.actions{display:flex; gap:10px; margin-top:18px; flex-wrap:wrap}
+button.pub{
+  font-family:inherit; font-size:13px; font-weight:600; padding:9px 16px; border-radius:8px;
+  border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer;
+}
+button.pub:hover{background:var(--surface-2)}
+button.pub.primary{background:var(--accent); color:#fff; border-color:var(--accent)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <p class="eyebrow">PR explainer · git repair + UX fix</p>
+    <h1>qualified-bank-LIVE.html — merge divergence, render-blocking syntax break, Save UX</h1>
+    <p class="subtitle">A worktree branch holding 3 new MANO units never made it to <code>main</code>, and the same patch that added those units corrupted a line terminator that silently broke the entire page. Both are fixed; the Save-to-Drive button now gives visible feedback.</p>
+    <div class="meta-row">
+      <span><b>Repo</b> ~/Claude/scratchpad</span>
+      <span><b>Branch</b> main ← worktree-add-units-star (merged)</span>
+      <span><b>Commits reviewed</b> bae59c6, d6abd2c, 1c213a0</span>
+      <span><b>Author</b> Lucia Johansson + Claude</span>
+      <span><b>Date</b> Aug 3–4, 2026</span>
+    </div>
+    <div class="pills">
+      <span class="pill was-broken">🔴 was broken: page stuck on "loading…"</span>
+      <span class="pill fixed">🟢 fixed: renders + published</span>
+      <span class="pill merged">⑂ 3 MANO units merged into main</span>
+      <span class="pill unverified">🟡 Drive save: unverified live</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section id="tldr">
+  <h2>TL;DR</h2>
+  <div class="card tldr">
+    <p><b>1.</b> Yesterday's MANO-unit edit was made inside a git worktree, which put it on a separate branch (<code>worktree-add-units-star</code>) that never got merged into <code>main</code> — so the artifact your <code>/qualified-bank</code> command pointed to didn't have it. Merged today with zero conflicts, zero deletions (only additions).</p>
+    <p><b>2.</b> Separately — and unrelated to the merge — the Python script that wrote those units into the file deleted the line break between the data array's closing <code>]</code> and the next statement, producing <code>]const STORE_KEY = ...</code> on one line. That's an unrecoverable JavaScript syntax error: the whole script dies before <code>render()</code> ever runs, which is exactly why the page just said "loading…" forever.</p>
+    <p><b>3.</b> While fixing that, added visible saving/success/error states to the Save-to-Drive button, since it previously gave no feedback on click beyond a small side-label.</p>
+  </div>
+</section>
+
+<section id="risk">
+  <h2>Risk map</h2>
+  <div class="riskmap">
+    <div class="risk-zone r-high">
+      <span class="rz-label">🔴 High — was the actual break</span>
+      <span class="rz-name">Script tail, line 30374</span>
+      <span class="rz-desc">One-line syntax fix. Trivial diff, but it's the entire reason the page didn't render at all. Verified with <code>node --check</code> pre- and post-fix.</span>
+      <span class="rz-lines">1 file · 1 line changed</span>
+    </div>
+    <div class="risk-zone r-med">
+      <span class="rz-label">🟡 Medium — new code path, unverified live</span>
+      <span class="rz-name">Save-to-Drive button states</span>
+      <span class="rz-desc">New function + 4 call sites. Logic is straightforward but the actual Drive MCP round-trip was never exercised this session — see Test Coverage below.</span>
+      <span class="rz-lines">1 file · ~20 lines added</span>
+    </div>
+    <div class="risk-zone r-low">
+      <span class="rz-label">🟢 Low — pure data, mechanically merged</span>
+      <span class="rz-name">SEED array (3 new units + 3 starred flags)</span>
+      <span class="rz-desc">115 insertions, 4 field flips, 0 deletions. Confirmed no duplicate unit IDs post-merge (805 → 808, clean).</span>
+      <span class="rz-lines">1 file · 115(+) 4(−)</span>
+    </div>
+  </div>
+</section>
+
+<section id="narrative">
+  <h2>What changed, why</h2>
+  <div class="card narrative">
+    <p>Lucia's last edit on Aug 3 — adding three new MANO-managed studio listings and starring three existing hot units — happened inside a <b>git worktree</b>. A worktree checks out its edits onto a separate branch by design, so <code>bae59c6</code> landed on <code>worktree-add-units-star</code>, not on <code>main</code>. Meanwhile <code>main</code> kept moving forward on its own (<code>1abeef2</code>, an unrelated auto-snapshot commit at 2:51pm — 37 minutes after the MANO commit). The two branches diverged and nothing merged them back. The artifact published from the worktree that afternoon had the MANO units; the artifact the <code>/qualified-bank</code> slash command pointed to did not, because it traced back to <code>main</code>.</p>
+    <p>Fixing that surfaced a second, unrelated problem: after merging the branches and republishing, the artifact loaded as a blank page reading only <b>"loading…"</b>. A direct <code>node --check</code> against the embedded app script found a real syntax error at line 30374 — the SEED data array's closing bracket was glued directly onto the next statement with no semicolon or newline: <code>]const STORE_KEY = ...</code>. JavaScript's automatic-semicolon-insertion only fires across a line break; with none present, the parser throws immediately and the script never reaches <code>render()</code>. This is almost certainly a side effect of how the MANO-adding Python patch script rewrote that section of the file on Aug 3.</p>
+    <p>Given the Save-to-Drive button was already flagged (by the artifact publish step) as calling an unverified connector, and its only feedback lived in a small side-label easy to miss, added explicit button states — <code>Saving…</code> → <code>Saved ✓</code> / <code>Save failed — retry</code> — so a click visibly does something even before the Drive round-trip is confirmed working in a live session.</p>
+  </div>
+</section>
+
+<section id="diffs">
+  <h2>Annotated diffs</h2>
+
+  <div class="commit">
+    <div class="commit-head">
+      <span class="commit-sha">bae59c6</span>
+      <span class="commit-msg">Add 3 new MANO units; star 3 HOT units</span>
+      <span class="commit-tag nice">🟢 nice — data only</span>
+    </div>
+    <div class="diff-body">
+      <div class="diff-code"><div>
+<div class="line ctx"><span class="ln">30259</span><span class="marker"> </span><span class="content">    "pick3": false,</span></div>
+<div class="line ctx"><span class="ln">30260</span><span class="marker"> </span><span class="content">    "videoTour": ""</span></div>
+<div class="line ctx"><span class="ln">30261</span><span class="marker"> </span><span class="content">  },</span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">  {</span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">    "id": "u978",</span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">    "address": "1 Astor Place",</span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">    "apt": "10H",</span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">    "priceNum": 4750.0,</span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">    "source": "Lucia 8/3/2026",</span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">    "mgmt": "MANO",</span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">    "area": "East Village",</span></div>
+<div class="line ctx"><span class="ln">…</span><span class="marker"> </span><span class="content">    (+ u979 888 Eighth Ave #7S, u980 225 E 10th St #4C, same shape)</span></div>
+</div></div>
+      <div class="notes">
+        <div class="note sev-nice"><span class="sev">🟢 nice</span>115 insertions, 4 deletions, all field-level — no unit removed, no ID collisions with existing 805 entries.</div>
+        <div class="note sev-nit"><span class="sev">🟡 worth a glance</span><code>confirmed: "8/3"</code> and <code>source: "Lucia 8/3/2026"</code> — fine now, but this format drifts across sources in the file (some use MM/DD, some full dates). Not a blocker, just inconsistent.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="commit">
+    <div class="commit-head">
+      <span class="commit-sha">d6abd2c</span>
+      <span class="commit-msg">Merge worktree-add-units-star into main</span>
+      <span class="commit-tag nice">🟢 clean merge</span>
+    </div>
+    <div class="diff-body">
+      <div class="diff-code"><div>
+<div class="line ctx"><span class="ln"> </span><span class="marker"> </span><span class="content">*   d6abd2c Merge MANO unit additions (worktree-add-units-star) into main</span></div>
+<div class="line ctx"><span class="ln"> </span><span class="marker"> </span><span class="content">|\  </span></div>
+<div class="line ctx"><span class="ln"> </span><span class="marker"> </span><span class="content">| * bae59c6 Add 3 new MANO units; star 3 HOT units</span></div>
+<div class="line ctx"><span class="ln"> </span><span class="marker"> </span><span class="content">* | 1abeef2 auto-snapshot 2026-08-03 14:51</span></div>
+<div class="line ctx"><span class="ln"> </span><span class="marker"> </span><span class="content">|/  </span></div>
+<div class="line ctx"><span class="ln"> </span><span class="marker"> </span><span class="content">* bda8ac2 Remove broken MEDIA column from qualified-bank artifact UI</span></div>
+</div></div>
+      <div class="notes">
+        <div class="note sev-nice"><span class="sev">🟢 nice</span>Working tree was clean before merging (checked with <code>git status --short</code>). The <code>ort</code> merge strategy resolved with zero conflicts since <code>main</code> never touched the same lines.</div>
+        <div class="note sev-nit"><span class="sev">🟡 nit</span>The old worktree branch <code>worktree-add-units-star</code> is still sitting around post-merge. Harmless, but worth deleting once you're comfortable the merge is good — see checklist.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="commit">
+    <div class="commit-head">
+      <span class="commit-sha">1c213a0</span>
+      <span class="commit-msg">Fix syntax error blocking render; add Save button states</span>
+      <span class="commit-tag blocking">🔴 blocking bug, now fixed</span>
+    </div>
+    <div class="diff-body">
+      <div class="diff-code"><div>
+<div class="line ctx"><span class="ln">30371</span><span class="marker"> </span><span class="content">    "pick2": false,</span></div>
+<div class="line ctx"><span class="ln">30372</span><span class="marker"> </span><span class="content">    "pick3": false</span></div>
+<div class="line ctx"><span class="ln">30373</span><span class="marker"> </span><span class="content">  }</span></div>
+<div class="line del"><span class="ln">30374</span><span class="marker">−</span><span class="content anchor">]const STORE_KEY = "qualifiedBankOP_v2";</span></div>
+<div class="line add"><span class="ln">30374</span><span class="marker">+</span><span class="content">];</span></div>
+<div class="line add"><span class="ln">30375</span><span class="marker">+</span><span class="content">const STORE_KEY = "qualifiedBankOP_v2";</span></div>
+<div class="line ctx"><span class="ln"> </span><span class="marker"> </span><span class="content"></span></div>
+<div class="line ctx"><span class="ln"> </span><span class="marker"> </span><span class="content">function loadState(){</span></div>
+</div></div>
+      <div class="notes">
+        <div class="note sev-blocking"><span class="sev">🔴 blocking — root cause</span>The array-close <code>]</code> and <code>const STORE_KEY</code> sat on one line with nothing between them. Automatic-semicolon-insertion in JS only inserts across a line break — with none here, the parser throws on the very first statement after the data, and every line after it (including <code>render()</code>) never executes. This is the entire "loading…" bug.</div>
+        <div class="note sev-nice"><span class="sev">🟢 verified</span>Extracted the inline app script and ran <code>node --check</code> before and after: syntax error present pre-fix, clean exit code 0 post-fix.</div>
+      </div>
+    </div>
+    <div class="diff-body">
+      <div class="diff-code"><div>
+<div class="line ctx"><span class="ln">30505</span><span class="marker"> </span><span class="content">}</span></div>
+<div class="line ctx"><span class="ln">30506</span><span class="marker"> </span><span class="content"></span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">function setSaveBtnState(state){</span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">  const btn = document.getElementById("driveSaveBtn");</span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">  if(!btn) return;</span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">  btn.disabled = state === "saving";</span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">  if(state === "saving"){ btn.textContent = "☁ Saving…"; ... }</span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">  else if(state === "success"){ btn.textContent = "☁ Saved ✓"; ...setTimeout(...2500)... }</span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">  else if(state === "error"){ btn.textContent = "☁ Save failed — retry"; ... }</span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">}</span></div>
+<div class="line ctx"><span class="ln"> </span><span class="marker"> </span><span class="content">async function driveSave(){</span></div>
+<div class="line ctx"><span class="ln"> </span><span class="marker"> </span><span class="content">  if(!(window.claude &amp;&amp; window.claude.mcp)){</span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">    setSaveBtnState("error");</span></div>
+<div class="line ctx"><span class="ln"> </span><span class="marker"> </span><span class="content">    return;</span></div>
+<div class="line ctx"><span class="ln"> </span><span class="marker"> </span><span class="content">  }</span></div>
+<div class="line ctx"><span class="ln"> </span><span class="marker"> </span><span class="content">  driveSaving = true;</span></div>
+<div class="line add"><span class="ln">+</span><span class="marker">+</span><span class="content">  setSaveBtnState("saving");</span></div>
+</div></div>
+      <div class="notes">
+        <div class="note sev-nit"><span class="sev">🟡 nit</span><code>btn.disabled = state === "saving"</code> correctly blocks double-clicks mid-save, which also caps how fast duplicate Drive files can accumulate (see Known Issues below) — but doesn't fix the underlying duplication.</div>
+        <div class="note sev-nit"><span class="sev">🟡 unverified</span>Never exercised against a live <code>window.claude.mcp</code> call this session — the artifact publish step itself flagged the Drive connector as "unobserved." Button state logic is sound in isolation but the success/error branches are untested against a real response.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="concepts">
+  <h2>Concept callouts</h2>
+  <div class="callout">
+    <span class="cal-label">Why a worktree branch goes silent</span>
+    <code>git worktree add</code> checks a path out onto its own branch by construction — that's the whole point, isolation. But it means anything committed there is invisible to <code>main</code> (and to anything that reads from <code>main</code>, like a republish step) until someone explicitly merges it back. No error, no warning — the commit just exists on a branch nobody's looking at.
+  </div>
+  <div class="callout">
+    <span class="cal-label">Why <code>]const</code> is fatal, not just ugly</span>
+    JS inserts a semicolon automatically at a line break when the next token can't otherwise continue the statement. With <code>]const</code> on the same line, there's no break to trigger that rule, so the parser reads it as one malformed statement and throws immediately — before any of your code, including the render call, ever runs. A missing semicolon usually doesn't matter in JS; missing <i>and</i> no newline is the one combination that does.
+  </div>
+</section>
+
+<section id="coverage">
+  <h2>Test coverage</h2>
+  <div class="card" style="padding:0">
+    <table class="cov">
+      <thead><tr><th>Area</th><th>Status</th><th>How / why</th></tr></thead>
+      <tbody>
+        <tr><td>JS syntax validity</td><td class="status tested">✅ tested</td><td><code>node --check</code> on extracted app script, before and after fix.</td></tr>
+        <tr><td>Merge correctness (no data loss/dupes)</td><td class="status tested">✅ tested</td><td>Unit-ID count diffed pre/post merge (805 → 808), <code>uniq -d</code> found zero duplicate IDs.</td></tr>
+        <tr><td>Page actually renders in a browser</td><td class="status skipped">🟡 not run</td><td>Fixed the syntax error that was provably blocking <code>render()</code>, but never opened the published URL in an actual browser this session to visually confirm the table draws.</td></tr>
+        <tr><td>Save-to-Drive live round-trip</td><td class="status skipped">🟡 not run</td><td>No live <code>window.claude.mcp.callTool</code> call was made — that API only exists inside the artifact's browser frame, not from this CLI session.</td></tr>
+        <tr><td>Drive file duplication on repeated saves</td><td class="status known">🔴 known, not fixed</td><td><code>driveSave()</code> always calls <code>create_file</code>; there's no <code>update_file</code>/<code>delete_file</code> tool in the connected Drive MCP toolset, so every save creates a new file rather than overwriting. This matches an earlier memory finding of ~10 numbered duplicate state files in Drive. Load-side is defensive (picks newest by <code>createdTime</code>), so this doesn't corrupt data — it just clutters the folder. Left alone this round since fixing it needs a Drive tool that isn't available.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="checklist">
+  <h2>Reviewer checklist — ranked by attention needed</h2>
+  <ul class="checklist">
+    <li class="top">
+      <span class="rank">1</span>
+      <span class="txt"><b>Open the artifact and confirm the table actually renders.</b><span>This is the one thing that was provably broken and is provably fixed at the syntax level, but was never visually confirmed in a live browser this session.</span></span>
+    </li>
+    <li class="top">
+      <span class="rank">2</span>
+      <span class="txt"><b>Click "Save to Drive" once and watch it go Saving… → Saved ✓ (or a clear error).</b><span>Confirms both the new button-state code and whether the Drive connector is actually granted in your session.</span></span>
+    </li>
+    <li>
+      <span class="rank">3</span>
+      <span class="txt"><b>Spot-check the 3 new MANO units' price/availability before blasting them.</b><span>u978 (1 Astor #10H, $4,750), u979 (888 Eighth #7S, $3,750), u980 (225 E 10th #4C, $3,650) — all marked IMM, confirmed 8/3.</span></span>
+    </li>
+    <li>
+      <span class="rank">4</span>
+      <span class="txt"><b>Decide whether to delete the merged worktree branch.</b><span><code>worktree-add-units-star</code> is fully merged and safe to remove, but left in place pending your OK.</span></span>
+    </li>
+    <li>
+      <span class="rank">5</span>
+      <span class="txt"><b>Google Drive duplicate-file cleanup is a separate, unresolved task.</b><span>Not fixed this round — no delete/update tool available via the current Drive connector. Worth a manual folder tidy at some point, functionally harmless for now.</span></span>
+    </li>
+  </ul>
+</section>
+
+<div class="actions">
+  <button class="pub primary" id="publishBtn">Publish to Claude.ai</button>
+</div>
+
+</div>
+
+<footer>Generated for review of qualified-bank-LIVE.html · commits bae59c6 / d6abd2c / 1c213a0 · last updated Aug 4, 2026 2:10pm EDT</footer>
+
+<script>
+document.getElementById('publishBtn').addEventListener('click', function(){
+  this.textContent = 'Ask Claude to publish this file in chat';
+  this.disabled = true;
+});
+</script>
+
+</body>
+</html>

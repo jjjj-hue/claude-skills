@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Downtown — 232 Elizabeth Flip — Reference</title>
+<style>
+  :root {
+    --ink: #1c1a17;
+    --ink-soft: #4a453e;
+    --paper: #ede9e0;
+    --paper-raised: #f7f4ed;
+    --line: #d8d1c2;
+    --accent: #a8763e;
+    --accent-soft: #f0e3d0;
+    --ready: #3f6b4f;
+    --ready-bg: #e4ede6;
+    --warn: #b3492f;
+    --warn-bg: #f5e2db;
+    --none-bg: #e8e4da;
+  }
+  :root[data-theme="dark"] {
+    --ink: #efe9de;
+    --ink-soft: #b8b0a2;
+    --paper: #201d19;
+    --paper-raised: #29251f;
+    --line: #3a352c;
+    --accent: #d3a05f;
+    --accent-soft: #3a2f20;
+    --ready: #7cb894;
+    --ready-bg: #24322a;
+    --warn: #e08464;
+    --warn-bg: #3a2620;
+    --none-bg: #2c2822;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #efe9de;
+      --ink-soft: #b8b0a2;
+      --paper: #201d19;
+      --paper-raised: #29251f;
+      --line: #3a352c;
+      --accent: #d3a05f;
+      --accent-soft: #3a2f20;
+      --ready: #7cb894;
+      --ready-bg: #24322a;
+      --warn: #e08464;
+      --warn-bg: #3a2620;
+      --none-bg: #2c2822;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 64px; }
+
+  .mono { font-family: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace; }
+
+  header h1 {
+    font-family: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 4px;
+    text-wrap: balance;
+  }
+  header .sub {
+    color: var(--ink-soft);
+    font-size: 13.5px;
+    max-width: 62ch;
+    margin: 0 0 22px;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .stat {
+    background: var(--paper-raised);
+    padding: 12px 14px;
+  }
+  .stat .n {
+    font-family: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
+    font-size: 22px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    display: block;
+  }
+  .stat .l {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+  }
+  .stat.ready .n { color: var(--ready); }
+  .stat.warn .n { color: var(--warn); }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .controls label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin-right: 4px;
+  }
+  select#groupBy {
+    font: inherit;
+    font-size: 13px;
+    background: var(--paper-raised);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+  select#groupBy:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip {
+    font: inherit;
+    font-size: 13px;
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 13px;
+    cursor: pointer;
+  }
+  .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .chip[aria-pressed="true"] {
+    background: var(--accent);
+    color: var(--paper-raised);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+
+  .group { margin-bottom: 28px; }
+  .group-title {
+    font-family: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin: 0 0 10px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .group-title .count { color: var(--line); font-weight: 400; }
+
+  .cards { display: grid; gap: 10px; }
+  .card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px 16px;
+    align-items: start;
+  }
+  .card .addr {
+    font-family: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
+    font-weight: 700;
+    font-size: 14.5px;
+  }
+  .card .meta {
+    grid-column: 1;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .card .price {
+    grid-row: 1 / 3;
+    grid-column: 2;
+    font-family: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
+    font-weight: 700;
+    font-size: 16px;
+    font-variant-numeric: tabular-nums;
+    color: var(--accent);
+    white-space: nowrap;
+    align-self: center;
+  }
+  .card .notes {
+    grid-column: 1 / -1;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+  .card .row2 {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 4px;
+    flex-wrap: wrap;
+  }
+  .pill {
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .pill.ready { background: var(--ready-bg); color: var(--ready); }
+  .pill.warn { background: var(--warn-bg); color: var(--warn); }
+  .pill.none { background: var(--none-bg); color: var(--ink-soft); }
+  .media-link {
+    font-size: 12.5px;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-soft);
+  }
+  .media-link:hover { border-bottom-color: var(--accent); }
+
+  footer {
+    margin-top: 32px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 640px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .card { grid-template-columns: 1fr; }
+    .card .price { grid-row: auto; grid-column: 1; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .card { transition: border-color 0.15s ease; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Downtown — 232 Elizabeth Flip</h1>
+    <p class="sub">Automation pool for new-lead drip, from full unit tracker (7/13/26), filtered to downtown (SoHo / TriBeCa / West Village / East Village / FiDi), 2BR or flex-to-2 only, OP only — no TRPA/tenant-rep units. 232 Elizabeth itself excluded (Ric's own ad, comp only). Nothing here has been sent yet.</p>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="controls">
+    <div>
+      <label for="groupBy">Group by</label>
+      <select id="groupBy">
+        <option value="tier">Price tier</option>
+        <option value="neighborhood">Neighborhood</option>
+        <option value="media">Media status</option>
+      </select>
+    </div>
+    <div class="chips" id="chips">
+      <button class="chip" data-filter="all" aria-pressed="true">All</button>
+      <button class="chip" data-filter="sendable" aria-pressed="false">Sendable now</button>
+      <button class="chip" data-filter="ready" aria-pressed="false">Has media</button>
+      <button class="chip" data-filter="gap" aria-pressed="false">Needs media</button>
+      <button class="chip" data-filter="hold" aria-pressed="false">Hold / flagged</button>
+    </div>
+  </div>
+
+  <div id="groups"></div>
+
+  <footer>Last updated 7/13/26. Source: 232 Elizabeth Flip Vol4 send + qualified-bank.md.</footer>
+</div>
+
+<script>
+  const UNITS = [
+    { addr: "13 East 7th St", unit: "1", nbhd: "East Village", type: "2 BR", price: 6700, avail: "Now",
+      media: "ready", mediaLabel: "3D Tour", mediaUrl: "https://my.matterport.com/show/?m=msHU6v1NME6",
+      notes: "BLDG mgmt", tier: "6-7.5k", status: "ready", flagged: false },
+    { addr: "201-205 West 11th St", unit: "4F", nbhd: "West Village", type: "2 BR", price: 6900, avail: "Now",
+      media: "ready", mediaLabel: "Matterport", mediaUrl: "https://my.matterport.com/show/?m=KUhnvBK8NPJ",
+      notes: "BLDG mgmt — smaller room, good as office setup", tier: "6-7.5k", status: "ready", flagged: false },
+    { addr: "201-205 West 11th St", unit: "2F", nbhd: "West Village", type: "2 BR", price: 7000, avail: "Now",
+      media: "none", mediaLabel: "None on file", mediaUrl: null,
+      notes: "Same building as #4F — sending 4F instead this round", tier: "6-7.5k", status: "hold", flagged: false },
+    { addr: "240 Waverly Place", unit: "56", nbhd: "West Village", type: "2 BR / 1 BA", price: 7250, avail: "Now",
+      media: "ready", mediaLabel: "3D Tour", mediaUrl: null,
+      notes: "Steps from Washington Sq Park, elevator, high ceilings", tier: "6-7.5k", status: "ready", flagged: false },
+    { addr: "53 Park Place", unit: "5E", nbhd: "TriBeCa", type: "1 BR flex 2", price: 6575, avail: "—",
+      media: "none", mediaLabel: "None on file", mediaUrl: null,
+      notes: "Flex layout", tier: "6-7.5k", status: "ready", flagged: false },
+    { addr: "70 Battery Place", unit: "924", nbhd: "FiDi", type: "2 BR / 2 BA", price: 7500, avail: "8/1",
+      media: "ready", mediaLabel: "Video Tour", mediaUrl: "https://www.youtube.com/shorts/wSgEfb4taqw",
+      notes: "Water views, split bedrooms", tier: "7.5-8k", status: "ready", flagged: false },
+    { addr: "50 Murray St", unit: "1608", nbhd: "TriBeCa", type: "1 BR flex 2 · 730 sqft", price: 7500, avail: "—",
+      media: "none", mediaLabel: "None on file", mediaUrl: null,
+      notes: "", tier: "7.5-8k", status: "ready", flagged: false },
+    { addr: "50 Murray St", unit: "804", nbhd: "TriBeCa", type: "1 BR flex 2 + den", price: 8000, avail: "—",
+      media: "ready", mediaLabel: "Video (of #1104, same layout)", mediaUrl: null,
+      notes: "Flex wall up", tier: "8k", status: "ready", flagged: false },
+    { addr: "166 Second Ave", unit: "14K", nbhd: "East Village", type: "2 BR", price: 8200, avail: "Now",
+      media: "ready", mediaLabel: "Matterport", mediaUrl: null,
+      notes: "BLDG mgmt", tier: "8k", status: "ready", flagged: false },
+    { addr: "480 West Broadway", unit: "4FL", nbhd: "SoHo", type: "Flex 2 (disputed — see flag)", price: 8550, avail: "Now",
+      media: "ready", mediaLabel: "3D Tour", mediaUrl: "https://my.matterport.com/show/?m=DGaLh9pNutL",
+      notes: "10ft ceilings, loft-like, roof deck, W/D", tier: "8k", status: "ready",
+      flagged: true, flagNote: "BLDG's own sheet calls this a large 1BR + study — NOT a true 2BR/flex-2. Verify before including." },
+  ];
+
+  const TIER_ORDER = ["under 6k", "6-7.5k", "7.5-8k", "8k"];
+  const TIER_LABEL = { "under 6k": "Under $6K", "6-7.5k": "$6K – $7.5K", "7.5-8k": "$7.5K – $8K", "8k": "$8K+" };
+  const MEDIA_LABEL = { ready: "Has media", gap: "Placeholder / unconfirmed", none: "No media" };
+
+  const fmtPrice = n => "$" + n.toLocaleString("en-US") + "/mo";
+
+  function renderStats() {
+    const total = UNITS.length;
+    const sendable = UNITS.filter(u => u.status === "ready" && !u.flagged).length;
+    const withMedia = UNITS.filter(u => u.media === "ready").length;
+    const holdFlagged = UNITS.filter(u => u.status === "hold" || u.flagged).length;
+    const stats = [
+      { n: total, l: "Total units" },
+      { n: withMedia, l: "Have media" },
+    ];
+    const el = document.getElementById("stats");
+    el.innerHTML = "";
+    stats.forEach(s => {
+      const d = document.createElement("div");
+      d.className = "stat";
+      const n = document.createElement("span"); n.className = "n"; n.textContent = s.n;
+      const l = document.createElement("span"); l.className = "l"; l.textContent = s.l;
+      d.append(n, l);
+      el.appendChild(d);
+    });
+    const readyStat = document.createElement("div");
+    readyStat.className = "stat ready";
+    readyStat.innerHTML = "";
+    const rn = document.createElement("span"); rn.className = "n"; rn.textContent = sendable;
+    const rl = document.createElement("span"); rl.className = "l"; rl.textContent = "Sendable now";
+    readyStat.append(rn, rl);
+    el.appendChild(readyStat);
+    const gapStat = document.createElement("div");
+    gapStat.className = "stat warn";
+    const gn = document.createElement("span"); gn.className = "n"; gn.textContent = holdFlagged;
+    const gl = document.createElement("span"); gl.className = "l"; gl.textContent = "Hold / flagged";
+    gapStat.append(gn, gl);
+    el.appendChild(gapStat);
+  }
+
+  function pillFor(unit) {
+    const pill = document.createElement("span");
+    if (unit.media === "ready") { pill.className = "pill ready"; pill.textContent = "Ready"; }
+    else if (unit.media === "gap") { pill.className = "pill warn"; pill.textContent = "Needs media"; }
+    else { pill.className = "pill none"; pill.textContent = "No media"; }
+    return pill;
+  }
+
+  function buildCard(unit) {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const addr = document.createElement("div");
+    addr.className = "addr";
+    addr.textContent = unit.addr + " #" + unit.unit;
+    card.appendChild(addr);
+
+    const price = document.createElement("div");
+    price.className = "price";
+    price.textContent = fmtPrice(unit.price);
+    card.appendChild(price);
+
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    meta.textContent = unit.nbhd + " · " + unit.type + " · Avail " + unit.avail;
+    card.appendChild(meta);
+
+    const row2 = document.createElement("div");
+    row2.className = "row2";
+    if (unit.status === "hold") {
+      const hold = document.createElement("span");
+      hold.className = "pill warn";
+      hold.textContent = "Hold — don't send";
+      row2.appendChild(hold);
+    }
+    if (unit.flagged) {
+      const flag = document.createElement("span");
+      flag.className = "pill warn";
+      flag.textContent = "Flagged";
+      row2.appendChild(flag);
+    }
+    row2.appendChild(pillFor(unit));
+    if (unit.mediaUrl) {
+      const a = document.createElement("a");
+      a.className = "media-link";
+      a.href = unit.mediaUrl;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = unit.mediaLabel;
+      row2.appendChild(a);
+    } else {
+      const span = document.createElement("span");
+      span.className = "media-link";
+      span.style.color = "var(--ink-soft)";
+      span.style.borderBottom = "none";
+      span.textContent = unit.mediaLabel;
+      row2.appendChild(span);
+    }
+    card.appendChild(row2);
+
+    if (unit.notes) {
+      const notes = document.createElement("div");
+      notes.className = "notes";
+      notes.textContent = unit.notes;
+      card.appendChild(notes);
+    }
+
+    if (unit.flagNote) {
+      const flagNote = document.createElement("div");
+      flagNote.className = "notes";
+      flagNote.style.color = "var(--warn)";
+      flagNote.style.fontWeight = "600";
+      flagNote.textContent = "⚠ " + unit.flagNote;
+      card.appendChild(flagNote);
+    }
+
+    return card;
+  }
+
+  function groupKey(unit, mode) {
+    if (mode === "tier") return unit.tier;
+    if (mode === "neighborhood") return unit.nbhd;
+    return unit.media;
+  }
+
+  function groupLabel(key, mode) {
+    if (mode === "tier") return TIER_LABEL[key] || key;
+    if (mode === "neighborhood") return key;
+    return MEDIA_LABEL[key] || key;
+  }
+
+  function orderedKeys(mode, keys) {
+    if (mode === "tier") return TIER_ORDER.filter(k => keys.has(k));
+    if (mode === "media") return ["gap", "none", "ready"].filter(k => keys.has(k));
+    return [...keys].sort();
+  }
+
+  function render() {
+    const mode = document.getElementById("groupBy").value;
+    const activeFilter = document.querySelector(".chip[aria-pressed='true']").dataset.filter;
+
+    let units = UNITS;
+    if (activeFilter === "sendable") units = units.filter(u => u.status === "ready" && !u.flagged);
+    if (activeFilter === "ready") units = units.filter(u => u.media === "ready");
+    if (activeFilter === "gap") units = units.filter(u => u.media !== "ready");
+    if (activeFilter === "hold") units = units.filter(u => u.status === "hold" || u.flagged);
+
+    const keys = new Set(units.map(u => groupKey(u, mode)));
+    const order = orderedKeys(mode, keys);
+
+    const container = document.getElementById("groups");
+    container.innerHTML = "";
+
+    order.forEach(key => {
+      const items = units.filter(u => groupKey(u, mode) === key).sort((a, b) => a.price - b.price);
+      if (!items.length) return;
+
+      const group = document.createElement("div");
+      group.className = "group";
+
+      const title = document.createElement("h2");
+      title.className = "group-title";
+      const label = document.createElement("span");
+      label.textContent = groupLabel(key, mode);
+      const count = document.createElement("span");
+      count.className = "count";
+      count.textContent = "(" + items.length + ")";
+      title.append(label, count);
+      group.appendChild(title);
+
+      const cards = document.createElement("div");
+      cards.className = "cards";
+      items.forEach(u => cards.appendChild(buildCard(u)));
+      group.appendChild(cards);
+
+      container.appendChild(group);
+    });
+  }
+
+  document.getElementById("groupBy").addEventListener("change", render);
+  document.querySelectorAll(".chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", "false"));
+      chip.setAttribute("aria-pressed", "true");
+      render();
+    });
+  });
+
+  renderStats();
+  render();
+</script>
+</body>
+</html>

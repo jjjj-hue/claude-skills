@@ -1,86 +1,60 @@
 ---
-name: rics-listings-check
-description: "Check Ric's LIVE StreetEasy active listings and flag what changed since the last check — new ads, dropped ads, price/unit changes, in-contract units. ONLY run when Lucia explicitly asks (e.g. 'check Ric's listings') — never run automatically or as a side effect of another task. Use before recommending any apartment, building a drip, or sending a blast that might touch Ric's inventory. Never trust a static/cached list — always pull live when asked."
+name: rics-listings
+description: "Ric's Active StreetEasy Listings — current available units, flip listings, paused, recently rented, and lead segment map. Read this before recommending any apartment or building a drip."
 ---
 
-# Ric's Listings — Live Check & Change Detection
+# Ric's Active StreetEasy Listings
 
-**Trigger:** Only run this when Lucia explicitly asks for it. Do not run proactively, on a
-schedule, or as a prerequisite step buried inside another task without asking first — it costs
-credits (browser pull + possible per-listing drill-in) and Lucia wants to control when it fires.
-
+**Last updated:** 2026-06-09
 **StreetEasy profile:** https://streeteasy.com/profile/845901-ric-salinas?tab_profile=active_listings
 
-## Core rule
-StreetEasy's "Active" tab (profile card view) only means the ad is still posted — it does NOT
-mean the unit is truly available. Ric leaves ads up after a unit is rented or has an application
-in progress, because inquiries still come in and get redirected. The profile card view has no
-"In Contract" indicator — that only shows on the individual listing page. Keep this check light:
-pull the card grid, diff it, and flag anything new/changed to Lucia. Only open an individual
-listing page if Lucia specifically asks to confirm In Contract status on a particular unit —
-don't drill into all listings by default, that's unnecessary overhead for a quick time-saver check.
+> Always verify against live StreetEasy before using.
+> Run `/fub-intel` → "refresh listings" to re-fetch live status via Kapture.
 
-## Status categories (Lucia/Ric define these — StreetEasy can't)
-- **AVAILABLE** — truly open, safe to send/flip to leads
-- **HAS AN APPLICATION** — ad still live, inquiries KEEP COMING IN → needs active FLIP/redirect messaging
-- **RENTED (ad still live)** — ad still live, inquiries KEEP COMING IN → needs active FLIP/redirect messaging
-- **FLIP** — never truly available even when first listed, ad still live → needs active FLIP/redirect messaging
-- **IN CONTRACT** — ad is DOWN, no live leads coming in at all → just EXCLUDE from everything (blasts, automations, flip pools). No redirect messaging needed since there's no inbound to redirect.
+## Actually Available (show — coordinate with tenant)
 
-Practically: everything that isn't confirmed AVAILABLE gets excluded from send-out blasts, but
-only HAS APP / RENTED-still-live / FLIP need active flip/redirect handling in automations —
-IN CONTRACT units generate zero live leads and should just be dropped from consideration entirely,
-not treated as a flip target.
+| Address | Unit | Size | Price | Avail |
+|---|---|---|---|---|
+| 255 W 12th St | 5S | 2 BR | $5,995 | Now |
+| 1443 York Ave | 4W | 1 BR (larger) | $3,895 | Now |
+| 338 E 70th St | 3B | — | $4,195 | 7/1 |
+| 1662 1st Ave | 4N | 2 BR | $4,750 | 7/1 |
 
-## Workflow
+## Flip Listings (leased — redirect to alts)
 
-1. **Pull live** — browse the StreetEasy profile URL above, extract every active listing:
-   address, unit, beds/baths, price, neighborhood. (Availability date and amenities aren't
-   on the profile card — only pull those from the individual listing page if specifically needed.)
+| Address | Unit | Size | Price | Notes |
+|---|---|---|---|---|
+| 23 Bedford St | 4E | 1 BR / 1 BA | $5,395 | NEW — West Village, avail now, photos only |
+| 52 Barrow St | — | 3 BR / 1.5 BA duplex | $7,995 | |
+| 232 Elizabeth St | — | 2 BR | $6,495 | |
+| 116 Franklin St | 4F | 1 BR | $4,650 | Greenpoint |
+| 166 W 83rd St | 1C | 1 BR | $3,795 | |
+| 214 E 10th St | #3 | 1 BR | $3,425 | Avail 7/1 |
+| 214 E 10th St | #10 | 1 BR | — | Avail 6/16 |
 
-2. **Diff against the last saved snapshot** (`ric_listings_snapshot.md` in this skill folder):
-   - **NEW** — address/unit combo appears now but wasn't in the last snapshot → flag as new ad, ask Lucia for status (available / has app / rented)
-   - **DROPPED** — was in last snapshot, no longer active → flag as likely rented, in contract, or pulled — ask Lucia to confirm, don't just assume rented
-   - **CHANGED** — same address/unit, different price → flag the old vs new price
-   - **UNCHANGED** — carry forward its last known status (available/app/rented/flip) from the snapshot
+## Paused
 
-3. **Output a change report first**, before anything else:
-   ```
-   RIC'S LISTINGS — CHECKED [date]
+| Address | Unit | Notes |
+|---|---|---|
+| 496 Fulton St | — | Studio, $3,395, Downtown Brooklyn — ad paused |
 
-   NEW ADS (confirm status):
-   - [address/unit] — [beds] — $[price] — ?
+## Recently Rented (6/8/26)
 
-   DROPPED (confirm — rented / in contract / pulled?):
-   - [address/unit] — was $[price]
+| Address | Unit | Size | Price |
+|---|---|---|---|
+| 724 10th Ave | 3B | 2 BR | $4,495 |
+| 1443 York Ave | 3E | 2 BR | $4,295 |
+| 1443 York Ave | 2S | 2 BR | $4,395 |
+| 1293 1st Ave | #7 | 2 BR | $4,595 |
 
-   PRICE CHANGES:
-   - [address/unit]: $[old] → $[new]
+## Lead Segment Map
 
-   UNCHANGED — carried forward status:
-   - [count] available, [count] flip/app/rented
-   ```
-
-4. **Ask Lucia to tag any NEW or ambiguous listing** as Available / Has App / Rented / Flip.
-   Never guess — if unconfirmed, default-treat as FLIP (safer than accidentally sending a
-   dead unit to a lead).
-
-5. **Update the snapshot file** with the new full list + confirmed statuses so next check
-   has an accurate baseline to diff against.
-
-6. **Refresh the live dashboard's Status page** — regenerate
-   `~/claude-skills/dashboard/ric-listings-dashboard.html` (Status tab only — leave the Launch
-   tab's cards untouched, that's owned by `/new-ad-launch`, not this skill):
-   - Update the header's "Last checked" timestamp and the four stat counts (Available /
-     Redirect / In Contract / Dropped).
-   - Rebuild each status group's rows from the current diffed list — same address/unit/price/
-     neighborhood/status data as the snapshot table, just rendered as rows instead of markdown.
-   - Republish with the Artifact tool: `file_path: ~/claude-skills/dashboard/ric-listings-dashboard.html`,
-     `url: https://claude.ai/code/artifact/1be9abe2-e809-4bcc-81fc-bb59fa856d31` (same URL every
-     time — this keeps Lucia's link stable instead of minting a new one each run).
-   - Skip this step only if Lucia explicitly says not to bother (e.g. she just wants the text report).
-
-## Output for downstream use (email-blast, tenant-rep-blast, draft-fub-sequence)
-- **AVAILABLE** → send-out pool
-- **HAS APP / RENTED-still-live / FLIP** → "redirect inquiries here" pool (active flip messaging needed — leads are still coming in on these)
-- **IN CONTRACT** → excluded entirely, not part of any pool — ad is down, no live leads, nothing to redirect
+| Segment | Criteria | Budget |
+|---|---|---|
+| Studio | Inquired on studios / under $4k ask | Under $4,000 |
+| 1BR-budget | Inquired on 1BRs under $4k | $3,000–$4,200 |
+| 1BR-mid | Inquired on 1BRs $4k–$5.5k | $4,000–$5,500 |
+| 2BR-budget | Inquired on 2BRs under $5k | $4,000–$5,500 |
+| 2BR-mid | Inquired on 2BRs $5k–$7k | $5,000–$7,000 |
+| 2BR-high | Inquired on 2BRs $7k+ | $7,000+ |
+| 3BR+ | Inquired on 3BRs or large units | $7,500+ |

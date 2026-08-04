@@ -1,0 +1,29 @@
+{
+  "_meta": {
+    "description": "Per-address FUB build status, checked on-demand via /new-ad-launch. Not auto-refreshed by /rics-listings — only updated when Lucia explicitly runs the launch checklist for an address.",
+    "lastUpdated": "2026-08-01T12:21:00-04:00"
+  },
+  "listings": [
+    { "address": "1662 First Avenue", "unit": "3S", "beds": "2 BR", "price": "$4,795/mo", "neighborhood": "Yorkville", "listingStatus": "AVAILABLE", "fubSetup": null },
+    { "address": "338 East 70th Street", "unit": "5D", "beds": "2 BR", "price": "$4,295/mo", "neighborhood": "Lenox Hill", "listingStatus": "AVAILABLE", "fubSetup": null },
+    { "address": "1293 First Avenue", "unit": "6", "beds": "2 BR", "price": "$4,795/mo", "neighborhood": "Lenox Hill", "listingStatus": "AVAILABLE", "fubSetup": null },
+    { "address": "1502 First Avenue", "unit": "3B", "beds": "1 BR", "price": "$3,275/mo", "neighborhood": "Lenox Hill", "listingStatus": "AVAILABLE", "fubSetup": null },
+    { "address": "57 Carmine Street", "unit": "1D", "beds": "Studio", "price": "$3,895/mo", "neighborhood": "West Village", "listingStatus": "FLIP", "fubSetup": null },
+    { "address": "255 West 12th Street", "unit": "5A", "beds": "1 BR", "price": "$5,295/mo", "neighborhood": "West Village", "listingStatus": "APP", "fubSetup": null },
+    { "address": "255 West 12th Street", "unit": "5N", "beds": "2 BR", "price": "$5,295/mo", "neighborhood": "West Village", "listingStatus": "APP/RENTED", "fubSetup": null },
+    { "address": "1443 York Avenue", "unit": "5E", "beds": "2 BR", "price": "$4,495/mo", "neighborhood": "Lenox Hill", "listingStatus": "RENTED — ad still live", "fubSetup": null },
+    { "address": "116 Franklin Street", "unit": "4F", "beds": "1 BR", "price": "$4,650/mo", "neighborhood": "Greenpoint", "listingStatus": "FLIP", "fubSetup": null },
+    { "address": "232 Elizabeth Street", "unit": "5B", "beds": "2 BR", "price": "$6,995/mo", "neighborhood": "Nolita", "listingStatus": "FLIP", "fubSetup": null },
+    { "address": "52 Barrow Street", "unit": "1B", "beds": "3 BR / 1.5 BA", "price": "$8,495/mo", "neighborhood": "West Village", "listingStatus": "FLIP", "fubSetup": null },
+    { "address": "724 Tenth Avenue", "unit": "3B", "beds": "2 BR", "price": "$4,750/mo", "neighborhood": "Hell's Kitchen", "listingStatus": "FLIP", "fubSetup": null },
+    { "address": "23 Bedford Street", "unit": "2A", "beds": "1 BR", "price": "$5,195/mo", "neighborhood": "West Village", "listingStatus": "FLIP", "fubSetup": null },
+    { "address": "326 Greenwich Street", "unit": "3O", "beds": "2 BR", "price": "$7,695/mo", "neighborhood": "Tribeca", "listingStatus": "FLIP", "fubSetup": null },
+    { "address": "214 East 10th Street", "unit": "13", "beds": "1 BR", "price": "$3,500/mo", "neighborhood": "East Village", "listingStatus": "IN CONTRACT", "fubSetup": null },
+    { "address": "446 Kent Avenue", "unit": "4D", "beds": "1 BR", "price": "$4,795/mo", "neighborhood": "Williamsburg", "listingStatus": "IN CONTRACT", "fubSetup": null },
+    { "address": "725 Eleventh Avenue", "unit": "5C", "beds": "3 BR", "price": "$5,500/mo", "neighborhood": "Hell's Kitchen", "listingStatus": "IN CONTRACT", "fubSetup": null },
+    { "address": "214 East 10th Street", "unit": "3", "beds": "1 BR", "price": "$3,525/mo", "neighborhood": "East Village", "listingStatus": "IN CONTRACT", "fubSetup": null }
+  ],
+  "dropped": [
+    { "address": "5-17 51st Avenue", "unit": "4A", "was": "$4,295/mo, FLIP", "resolution": "Pulled/Paused — Ric paused, low lead volume" }
+  ]
+}

@@ -1,0 +1,315 @@
+<title>Ric's Listings — Live Board</title>
+<style>
+  :root {
+    --bg: #eef0ec;
+    --surface: #ffffff;
+    --surface-2: #f7f8f5;
+    --ink: #1b2430;
+    --ink-soft: #3a4451;
+    --muted: #64707d;
+    --line: #dde1db;
+    --accent: #2b4c6f;
+    --accent-soft: #dce6ee;
+    --available: #3c7a5c;
+    --available-soft: #e1efe7;
+    --redirect: #b8791e;
+    --redirect-soft: #f7ecd9;
+    --contract: #8b4a46;
+    --contract-soft: #f2e2e0;
+    --dropped: #9aa0a6;
+    --shadow: 0 1px 2px rgba(27,36,48,0.06), 0 8px 24px -12px rgba(27,36,48,0.18);
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Georgia", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14181d;
+      --surface: #1c222a;
+      --surface-2: #212831;
+      --ink: #ecedee;
+      --ink-soft: #c7cdd4;
+      --muted: #8b96a3;
+      --line: #2b333d;
+      --accent: #6fa0c9;
+      --accent-soft: #23303c;
+      --available: #4fae82;
+      --available-soft: #1c2c25;
+      --redirect: #d9a64e;
+      --redirect-soft: #2e2618;
+      --contract: #c97873;
+      --contract-soft: #2e2020;
+      --dropped: #6b7280;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14181d; --surface: #1c222a; --surface-2: #212831; --ink: #ecedee; --ink-soft: #c7cdd4;
+    --muted: #8b96a3; --line: #2b333d; --accent: #6fa0c9; --accent-soft: #23303c;
+    --available: #4fae82; --available-soft: #1c2c25; --redirect: #d9a64e; --redirect-soft: #2e2618;
+    --contract: #c97873; --contract-soft: #2e2020; --dropped: #6b7280;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+  :root[data-theme="light"] {
+    --bg: #eef0ec; --surface: #ffffff; --surface-2: #f7f8f5; --ink: #1b2430; --ink-soft: #3a4451;
+    --muted: #64707d; --line: #dde1db; --accent: #2b4c6f; --accent-soft: #dce6ee;
+    --available: #3c7a5c; --available-soft: #e1efe7; --redirect: #b8791e; --redirect-soft: #f7ecd9;
+    --contract: #8b4a46; --contract-soft: #f2e2e0; --dropped: #9aa0a6;
+    --shadow: 0 1px 2px rgba(27,36,48,0.06), 0 8px 24px -12px rgba(27,36,48,0.18);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  .wrap { max-width: 980px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  header.top { display: flex; flex-direction: column; gap: 18px; margin-bottom: 28px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  h1 {
+    font-family: var(--serif); font-weight: 600; font-size: clamp(28px, 4vw, 38px);
+    margin: 4px 0 0; text-wrap: balance; letter-spacing: -0.01em;
+  }
+  .meta-row {
+    display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center;
+    font-size: 13px; color: var(--muted);
+  }
+  .meta-row strong { color: var(--ink-soft); font-weight: 600; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 6px; }
+  .stat {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    padding: 12px 14px; box-shadow: var(--shadow);
+  }
+  .stat .n { font-family: var(--serif); font-size: 26px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .stat .l { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-top: 4px; }
+  .stat.available .n { color: var(--available); }
+  .stat.redirect .n { color: var(--redirect); }
+  .stat.contract .n { color: var(--contract); }
+  .stat.dropped .n { color: var(--dropped); }
+
+  nav.tabs {
+    display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin: 30px 0 20px;
+  }
+  nav.tabs button {
+    font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--muted);
+    background: none; border: none; padding: 10px 4px; margin-right: 22px; cursor: pointer;
+    border-bottom: 2px solid transparent; transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  nav.tabs button:hover { color: var(--ink-soft); }
+  nav.tabs button.active { color: var(--ink); border-bottom-color: var(--accent); }
+  nav.tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  section.page { display: none; }
+  section.page.active { display: block; }
+
+  .group { margin-bottom: 30px; }
+  .group-head {
+    display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px;
+  }
+  .group-head h2 {
+    font-family: var(--serif); font-size: 17px; font-weight: 600; margin: 0; color: var(--ink);
+  }
+  .group-head .count { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .group-head .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot.available { background: var(--available); }
+  .dot.redirect { background: var(--redirect); }
+  .dot.contract { background: var(--contract); }
+  .dot.dropped { background: var(--dropped); }
+
+  .row {
+    display: grid; grid-template-columns: 1.6fr 0.9fr 1fr 1.1fr; gap: 14px;
+    align-items: center; padding: 12px 14px; background: var(--surface);
+    border: 1px solid var(--line); border-left-width: 3px; border-radius: 8px; margin-bottom: 6px;
+    box-shadow: var(--shadow);
+  }
+  .row.available { border-left-color: var(--available); }
+  .row.redirect { border-left-color: var(--redirect); }
+  .row.contract { border-left-color: var(--contract); }
+  .row.dropped { border-left-color: var(--dropped); opacity: 0.7; }
+
+  .addr { font-weight: 600; font-size: 14.5px; }
+  .addr .unit { color: var(--muted); font-weight: 500; }
+  .price { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 13.5px; color: var(--ink-soft); }
+  .hood { font-size: 13px; color: var(--muted); }
+  .status-tag {
+    justify-self: start; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px;
+    text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap;
+  }
+  .status-tag.available { background: var(--available-soft); color: var(--available); }
+  .status-tag.redirect { background: var(--redirect-soft); color: var(--redirect); }
+  .status-tag.contract { background: var(--contract-soft); color: var(--contract); }
+  .status-tag.dropped { background: var(--surface-2); color: var(--dropped); text-decoration: line-through; }
+
+  .row.dropped .price { text-decoration: line-through; }
+
+  .note {
+    font-size: 12.5px; color: var(--muted); grid-column: 1 / -1; margin-top: 2px;
+  }
+
+  .row-wrap { display: flex; flex-direction: column; gap: 0; }
+
+  /* Launch page */
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px 18px; margin-bottom: 12px; box-shadow: var(--shadow);
+  }
+  .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+  .card-head .addr { font-size: 15.5px; }
+  .card-sub { font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+  .badge {
+    font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+    text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; flex-shrink: 0;
+  }
+  .badge.unchecked { background: var(--surface-2); color: var(--muted); border: 1px dashed var(--line); }
+  .badge.checked { background: var(--available-soft); color: var(--available); }
+  .badge.gap { background: var(--contract-soft); color: var(--contract); }
+
+  .empty-state {
+    text-align: center; padding: 48px 20px; color: var(--muted); font-size: 14px;
+    border: 1px dashed var(--line); border-radius: 10px; background: var(--surface);
+  }
+  .empty-state code {
+    font-family: var(--mono); background: var(--accent-soft); color: var(--accent);
+    padding: 2px 6px; border-radius: 4px; font-size: 12.5px;
+  }
+
+  footer {
+    margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line);
+    font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+
+  @media (max-width: 640px) {
+    .row { grid-template-columns: 1fr; gap: 4px; }
+    .status-tag { justify-self: start; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Bond New York · Ric Salinas</div>
+      <h1>Ric's Listings — Live Board</h1>
+    </div>
+    <div class="meta-row">
+      <span>Last checked <strong>Aug 1, 2026 · 12:21 PM EDT</strong></span>
+      <span>Source: StreetEasy active listings profile</span>
+    </div>
+    <div class="stats">
+      <div class="stat available"><div class="n">4</div><div class="l">Available</div></div>
+      <div class="stat redirect"><div class="n">10</div><div class="l">Redirect / Flip</div></div>
+      <div class="stat contract"><div class="n">4</div><div class="l">In Contract</div></div>
+      <div class="stat dropped"><div class="n">1</div><div class="l">Dropped</div></div>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="active" data-tab="status">Status</button>
+    <button data-tab="launch">Launch &amp; Setup</button>
+  </nav>
+
+  <section class="page active" id="page-status">
+
+    <div class="group">
+      <div class="group-head"><span class="dot available"></span><h2>Available — send-out pool</h2><span class="count">4</span></div>
+      <div class="row available"><div class="addr">1662 First Avenue <span class="unit">#3S</span></div><div class="price">$4,795/mo</div><div class="hood">Yorkville · 2 BR</div><div class="status-tag available">Available</div></div>
+      <div class="row available"><div class="addr">338 East 70th Street <span class="unit">#5D</span></div><div class="price">$4,295/mo</div><div class="hood">Lenox Hill · 2 BR</div><div class="status-tag available">Available</div></div>
+      <div class="row available"><div class="addr">1293 First Avenue <span class="unit">#6</span></div><div class="price">$4,795/mo</div><div class="hood">Lenox Hill · 2 BR</div><div class="status-tag available">Available</div></div>
+      <div class="row available"><div class="addr">1502 First Avenue <span class="unit">#3B</span></div><div class="price">$3,275/mo</div><div class="hood">Lenox Hill · 1 BR</div><div class="status-tag available">Available</div></div>
+    </div>
+
+    <div class="group">
+      <div class="group-head"><span class="dot redirect"></span><h2>Redirect pool — ad live, no longer truly available</h2><span class="count">10</span></div>
+      <div class="row redirect"><div class="addr">23 Bedford Street <span class="unit">#2A</span></div><div class="price">$5,195/mo</div><div class="hood">West Village · 1 BR</div><div class="status-tag redirect">Flip</div></div>
+      <div class="row redirect"><div class="addr">57 Carmine Street <span class="unit">#1D</span></div><div class="price">$3,895/mo</div><div class="hood">West Village · Studio</div><div class="status-tag redirect">Flip</div></div>
+      <div class="row redirect"><div class="addr">255 West 12th Street <span class="unit">#5A</span></div><div class="price">$5,295/mo</div><div class="hood">West Village · 1 BR</div><div class="status-tag redirect">App</div></div>
+      <div class="row redirect"><div class="addr">255 West 12th Street <span class="unit">#5N</span></div><div class="price">$5,295/mo</div><div class="hood">West Village · 2 BR</div><div class="status-tag redirect">App / Rented</div></div>
+      <div class="row redirect"><div class="addr">1443 York Avenue <span class="unit">#5E</span></div><div class="price">$4,495/mo</div><div class="hood">Lenox Hill · 2 BR</div><div class="status-tag redirect">Rented</div></div>
+      <div class="row redirect"><div class="addr">116 Franklin Street <span class="unit">#4F</span></div><div class="price">$4,650/mo</div><div class="hood">Greenpoint · 1 BR</div><div class="status-tag redirect">Flip</div></div>
+      <div class="row redirect"><div class="addr">232 Elizabeth Street <span class="unit">#5B</span></div><div class="price">$6,995/mo</div><div class="hood">Nolita · 2 BR</div><div class="status-tag redirect">Flip</div></div>
+      <div class="row redirect"><div class="addr">52 Barrow Street <span class="unit">#1B</span></div><div class="price">$8,495/mo</div><div class="hood">West Village · 3 BR / 1.5 BA</div><div class="status-tag redirect">Flip</div></div>
+      <div class="row redirect"><div class="addr">724 Tenth Avenue <span class="unit">#3B</span></div><div class="price">$4,750/mo</div><div class="hood">Hell's Kitchen · 2 BR</div><div class="status-tag redirect">Flip</div></div>
+      <div class="row redirect"><div class="addr">326 Greenwich Street <span class="unit">#3O</span></div><div class="price">$7,695/mo</div><div class="hood">Tribeca · 2 BR</div><div class="status-tag redirect">Flip</div></div>
+      <div class="note"><strong style="color:var(--redirect);">Flip</strong> = never truly available, even when first listed — posted purely as a lead magnet to redirect inquiries elsewhere. <strong style="color:var(--redirect);">App / Rented</strong> = was genuinely available, then taken — ad just hasn't come down yet.</div>
+    </div>
+
+    <div class="group">
+      <div class="group-head"><span class="dot contract"></span><h2>In contract — excluded entirely</h2><span class="count">4</span></div>
+      <div class="row-wrap">
+        <div class="row contract"><div class="addr">214 East 10th Street <span class="unit">#13</span></div><div class="price">$3,500/mo</div><div class="hood">East Village · 1 BR</div><div class="status-tag contract">In Contract</div></div>
+        <div class="row contract"><div class="addr">446 Kent Avenue <span class="unit">#4D</span></div><div class="price">$4,795/mo</div><div class="hood">Williamsburg · 1 BR</div><div class="status-tag contract">In Contract</div></div>
+        <div class="row contract"><div class="addr">725 Eleventh Avenue <span class="unit">#5C</span></div><div class="price">$5,500/mo</div><div class="hood">Hell's Kitchen · 3 BR</div><div class="status-tag contract">In Contract</div></div>
+        <div class="row contract"><div class="addr">214 East 10th Street <span class="unit">#3</span></div><div class="price">$3,525/mo</div><div class="hood">East Village · 1 BR</div><div class="status-tag contract">In Contract</div></div>
+      </div>
+      <div class="note">Confirmed still in contract 8/1 ~12pm — ad live, no new leads coming in per Ric.</div>
+    </div>
+
+    <div class="group">
+      <div class="group-head"><span class="dot dropped"></span><h2>Dropped since last check</h2><span class="count">1</span></div>
+      <div class="row dropped"><div class="addr">5-17 51st Avenue <span class="unit">#4A</span></div><div class="price">$4,295/mo</div><div class="hood">Hunters Point · 1 BR</div><div class="status-tag dropped">Paused</div></div>
+      <div class="note">Ric paused — low lead volume, not rented or in contract.</div>
+    </div>
+
+  </section>
+
+  <section class="page" id="page-launch">
+
+    <div class="empty-state" style="margin-bottom:20px;">
+      FUB setup status is checked <strong>on demand</strong> — run <code>/new-ad-launch [address]</code> for a listing and this page updates with its build status. Nothing below has been checked yet this cycle.
+    </div>
+
+    <div class="group">
+      <div class="group-head"><h2>Available — needs launch build first</h2><span class="count">4</span></div>
+      <div class="card">
+        <div class="card-head"><div class="addr">1662 First Avenue <span class="unit" style="color:var(--muted);font-weight:500;">#3S</span></div><span class="badge unchecked">Not checked</span></div>
+        <div class="card-sub">2 BR · $4,795/mo · Yorkville — run <code>/new-ad-launch 1662 First Avenue #3S, Vacant</code></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="addr">338 East 70th Street <span class="unit" style="color:var(--muted);font-weight:500;">#5D</span></div><span class="badge unchecked">Not checked</span></div>
+        <div class="card-sub">2 BR · $4,295/mo · Lenox Hill — run <code>/new-ad-launch 338 East 70th Street #5D, Vacant</code></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="addr">1293 First Avenue <span class="unit" style="color:var(--muted);font-weight:500;">#6</span></div><span class="badge unchecked">Not checked</span></div>
+        <div class="card-sub">2 BR · $4,795/mo · Lenox Hill — run <code>/new-ad-launch 1293 First Avenue #6, Vacant</code></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="addr">1502 First Avenue <span class="unit" style="color:var(--muted);font-weight:500;">#3B</span></div><span class="badge unchecked">Not checked</span></div>
+        <div class="card-sub">1 BR · $3,275/mo · Lenox Hill — run <code>/new-ad-launch 1502 First Avenue #3B, Vacant</code></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-head"><h2>Redirect pool — flip messaging, not a fresh launch</h2><span class="count">10</span></div>
+      <div class="empty-state">
+        These 10 addresses already have inbound leads getting redirected (App / Rented / Flip). They don't need a fresh <code>/new-ad-launch</code> build unless a lead-flow gap turns up — check <code>/fub-inbox</code> for flip messaging coverage instead.
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    <span>Regenerated by <code style="font-family:var(--mono);">/rics-listings</code> (status page) and <code style="font-family:var(--mono);">/new-ad-launch</code> (launch page, on demand)</span>
+    <span>Data: ~/claude-skills/data/fub_setup_status.json</span>
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll('nav.tabs button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('section.page').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('page-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+</script>

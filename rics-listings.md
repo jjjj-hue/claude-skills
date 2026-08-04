@@ -68,6 +68,18 @@ not treated as a flip target.
 5. **Update the snapshot file** with the new full list + confirmed statuses so next check
    has an accurate baseline to diff against.
 
+6. **Refresh the live dashboard's Status page** — regenerate
+   `~/claude-skills/dashboard/ric-listings-dashboard.html` (Status tab only — leave the Launch
+   tab's cards untouched, that's owned by `/new-ad-launch`, not this skill):
+   - Update the header's "Last checked" timestamp and the four stat counts (Available /
+     Redirect / In Contract / Dropped).
+   - Rebuild each status group's rows from the current diffed list — same address/unit/price/
+     neighborhood/status data as the snapshot table, just rendered as rows instead of markdown.
+   - Republish with the Artifact tool: `file_path: ~/claude-skills/dashboard/ric-listings-dashboard.html`,
+     `url: https://claude.ai/code/artifact/1be9abe2-e809-4bcc-81fc-bb59fa856d31` (same URL every
+     time — this keeps Lucia's link stable instead of minting a new one each run).
+   - Skip this step only if Lucia explicitly says not to bother (e.g. she just wants the text report).
+
 ## Output for downstream use (email-blast, tenant-rep-blast, draft-fub-sequence)
 - **AVAILABLE** → send-out pool
 - **HAS APP / RENTED-still-live / FLIP** → "redirect inquiries here" pool (active flip messaging needed — leads are still coming in on these)
